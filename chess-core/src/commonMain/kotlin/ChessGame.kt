@@ -210,7 +210,7 @@ class ChessGame(
         val fromSquare = Square(uci.substring(0, 2))
         val toSquare = Square(uci.substring(2, 4))
         val promotionChar = uci.getOrNull(4)
-        val move = Move(fromSquare, toSquare, promotionChar)
+        val move = getLegalMoves().firstOrNull { it == Move(fromSquare, toSquare, promotionChar) }?: return false
         return makeMove(move)
     }
 
