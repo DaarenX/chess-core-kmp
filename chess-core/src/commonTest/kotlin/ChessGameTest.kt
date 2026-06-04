@@ -81,6 +81,18 @@ class ChessGameTest {
     }
 
     @Test
+    fun makeUciMove_enPassant_updatesGameState() {
+        val game = ChessGame()
+        game.loadFen("rnbqkbnr/ppp2ppp/3p4/3Pp3/8/8/PPP1PPPP/RNBQKBNR w KQkq e6 0 3")
+
+        val moveMade = game.makeUciMove("d5e6")
+
+        assertTrue(moveMade)
+        assertEquals(PieceColor.BLACK, game.getCurrentPlayer())
+        assertEquals("rnbqkbnr/ppp2ppp/3pP3/8/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 3", game.getFen())
+    }
+
+    @Test
     fun undo_afterOneMove_revertsToInitialState() {
         val game = ChessGame()
         val initialFen = game.getFen()
