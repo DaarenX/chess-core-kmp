@@ -46,8 +46,11 @@ Before submitting a pull request, ensure that all tests pass and that your chang
 can run the tests using Gradle:
 
 ```bash
-./gradlew test
+./gradlew allTests
 ```
+
+This runs the tests on every target your machine supports (iOS tests require macOS). For a quicker loop while
+developing, `./gradlew jvmTest` runs only the JVM tests.
 
 ## Examples of Issues to Report
 

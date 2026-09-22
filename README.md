@@ -76,14 +76,15 @@ game.loadPgn("1. e4 e5 2. Nf3 Nc6")
 
 ## Project Structure
 
-- `src/commonMain/kotlin`: Contains the core source code for the chess engine.
+- `chess-core/src/commonMain/kotlin`: Contains the core source code for the chess engine.
     - `board`: Classes related to the chessboard, squares, files, and ranks.
     - `exception`: Custom exceptions for handling errors.
     - `game`: Game state management, rules, and results.
     - `move`: Move generation and representation.
     - `piece`: Piece types, colors, and representation.
     - `utils`: Utilities for handling FEN, PGN, and SAN (Standard Algebraic Notation).
-- `src/test/kotlin`: Contains unit tests for the project.
+- `chess-core/src/commonTest/kotlin`: Unit tests that run on every target.
+- `chess-core/src/jvmTest/kotlin`: JVM-only tests, such as the perft suite.
 
 ## Documentation
 Detailed documentation for this project is available
