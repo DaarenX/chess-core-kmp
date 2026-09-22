@@ -1,6 +1,6 @@
-package io.github.alluhemanth.chess.core.game
+package xyz.daaren.chess.core.game
 
-import io.github.alluhemanth.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.piece.PieceColor
 
 /**
  * Represents the result of a chess game.

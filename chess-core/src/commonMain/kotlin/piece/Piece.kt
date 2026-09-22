@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.piece
+package xyz.daaren.chess.core.piece
 
 /**
  * Represents a chess piece with a specific type and color.

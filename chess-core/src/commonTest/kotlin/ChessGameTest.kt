@@ -1,7 +1,7 @@
-package io.github.alluhemanth.chess.core
+package xyz.daaren.chess.core
 
-import io.github.alluhemanth.chess.core.game.GameResult
-import io.github.alluhemanth.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.game.GameResult
+import xyz.daaren.chess.core.piece.PieceColor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -36,9 +36,9 @@ class ChessGameTest {
     fun makeMove_illegalMove_doesNotChangeState() {
         val game = ChessGame()
         val initialFen = game.getFen()
-        val illegalMove = io.github.alluhemanth.chess.core.move.Move(
-            io.github.alluhemanth.chess.core.board.Square("e2"),
-            io.github.alluhemanth.chess.core.board.Square("e5")
+        val illegalMove = xyz.daaren.chess.core.move.Move(
+            xyz.daaren.chess.core.board.Square("e2"),
+            xyz.daaren.chess.core.board.Square("e5")
         )
 
         val moveMade = game.makeMove(illegalMove)

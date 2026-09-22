@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.exception
+package xyz.daaren.chess.core.exception
 
 /**
  * Exception thrown when a rank value is outside the valid range (1..8).

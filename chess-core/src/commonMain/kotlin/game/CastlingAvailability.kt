@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.game
+package xyz.daaren.chess.core.game
 
 /**
  * Represents the castling rights for a player.

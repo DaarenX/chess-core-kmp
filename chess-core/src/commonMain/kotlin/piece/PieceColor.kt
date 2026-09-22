@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.piece
+package xyz.daaren.chess.core.piece
 
 /**
  * Enum representing the color of a chess piece.

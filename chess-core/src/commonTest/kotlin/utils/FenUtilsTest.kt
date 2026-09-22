@@ -1,8 +1,8 @@
-package io.github.alluhemanth.chess.core.utils
+package xyz.daaren.chess.core.utils
 
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.exception.InvalidFenException
-import io.github.alluhemanth.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.exception.InvalidFenException
+import xyz.daaren.chess.core.piece.PieceColor
 import kotlin.test.*
 
 class FenUtilsTest {

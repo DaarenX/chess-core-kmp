@@ -1,10 +1,10 @@
-package io.github.alluhemanth.chess.core.move.piece
+package xyz.daaren.chess.core.move.piece
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.move.Move
-import io.github.alluhemanth.chess.core.piece.Piece
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.move.Move
+import xyz.daaren.chess.core.piece.Piece
 
 /**
  * Interface for generating pseudo-legal moves for a chess piece.

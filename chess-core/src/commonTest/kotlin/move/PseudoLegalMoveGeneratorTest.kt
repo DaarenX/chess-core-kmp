@@ -1,6 +1,6 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
-import io.github.alluhemanth.chess.core.utils.FenUtils
+import xyz.daaren.chess.core.utils.FenUtils
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

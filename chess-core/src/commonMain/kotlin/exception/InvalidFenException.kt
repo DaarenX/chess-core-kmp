@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.exception
+package xyz.daaren.chess.core.exception
 
 /**
  * Exception thrown when a FEN string is invalid or cannot be parsed.

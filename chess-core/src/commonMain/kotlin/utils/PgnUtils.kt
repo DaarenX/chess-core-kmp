@@ -1,10 +1,10 @@
-package io.github.alluhemanth.chess.core.utils
+package xyz.daaren.chess.core.utils
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.game.GameUtils
-import io.github.alluhemanth.chess.core.game.PgnGame
-import io.github.alluhemanth.chess.core.game.PgnMove
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.game.GameUtils
+import xyz.daaren.chess.core.game.PgnGame
+import xyz.daaren.chess.core.game.PgnMove
 
 /**
  * Utility object for parsing and handling PGN (Portable Game Notation) chess games.

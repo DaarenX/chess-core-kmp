@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.utils
+package xyz.daaren.chess.core.utils
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

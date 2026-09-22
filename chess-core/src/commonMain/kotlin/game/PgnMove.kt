@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.game
+package xyz.daaren.chess.core.game
 
 data class PgnMove(
     val san: String,

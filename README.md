@@ -20,7 +20,7 @@ for flexibility, extensibility, and integration with engines like Stockfish.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/alluhemanth/chess-core-kmp.git
+   git clone https://github.com/daarenx/chess-core-kmp.git
    ```
 2. Build the project using Gradle:
    ```bash
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.alluhemanth:chess-core:1.0.2")
+    implementation("xyz.daaren:chess-core:1.0.0")
 }
 ```
 
@@ -87,7 +87,7 @@ game.loadPgn("1. e4 e5 2. Nf3 Nc6")
 
 ## Documentation
 Detailed documentation for this project is available
-at [chess-core-kmp documentation](https://alluhemanth.github.io/chess-core-kmp/).
+at [chess-core-kmp documentation](https://daarenx.github.io/chess-core-kmp/).
 
 ## Contributing
 Contributions are welcome! Please see the [CONTRIBUTING](CONTRIBUTING.md) file for detailed guidelines on how to

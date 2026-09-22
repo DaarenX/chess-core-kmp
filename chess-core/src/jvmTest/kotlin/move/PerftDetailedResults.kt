@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
 // Can be inside PerftTest.kt or in a separate file if used elsewhere
 data class PerftDetailedResults(

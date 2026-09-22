@@ -16,39 +16,39 @@ a simple wrapper for that—but it does not include a chess engine or AI itself.
 - **Modular and Extensible:** The code is organized for easy extension, so you can add features or adapt it for your own
   chess-related projects.
 
-# Package io.github.alluhemanth.chess.core
+# Package xyz.daaren.chess.core
 
 This is the main package, bringing together all the core features for working with chess games. Here you’ll find the
 primary classes for setting up and managing a chess game.
 
-# Package io.github.alluhemanth.chess.core.board
+# Package xyz.daaren.chess.core.board
 
 Handles everything related to the chessboard: board representation, squares, files (columns), and ranks (rows).
 Responsible for tracking piece positions, validating moves, and setting up positions (including from FEN strings).
 
-# Package io.github.alluhemanth.chess.core.exception
+# Package xyz.daaren.chess.core.exception
 
 Custom exceptions for error handling, such as invalid moves, bad FEN strings, or out-of-bounds board coordinates.
 
-# Package io.github.alluhemanth.chess.core.game
+# Package xyz.daaren.chess.core.game
 
 Manages the flow of the chess game: turn management, special moves (castling, en passant), and game end conditions (
 checkmate, stalemate, draw, etc.).
 
-# Package io.github.alluhemanth.chess.core.move
+# Package xyz.daaren.chess.core.move
 
 Focuses on move generation and validation. Generates legal moves, checks move validity, and applies moves to the board.
 `PseudoLegalMoveGenerator.kt`: Generates moves that are legal except for leaving the king in check.
 
-# Package io.github.alluhemanth.chess.core.move.piece
+# Package xyz.daaren.chess.core.move.piece
 
 Defines how each chess piece moves. Implements the movement rules for pawns, knights, bishops, rooks, queens, and kings.
 
-# Package io.github.alluhemanth.chess.core.piece
+# Package xyz.daaren.chess.core.piece
 
 Defines chess pieces, their types, and colors.
 
-# Package io.github.alluhemanth.chess.core.utils
+# Package xyz.daaren.chess.core.utils
 
 Utility functions for working with chess data, including FEN and PGN parsing/generation and standard algebraic
 notation (SAN).

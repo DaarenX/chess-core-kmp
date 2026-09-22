@@ -1,16 +1,16 @@
-package io.github.alluhemanth.chess.core
+package xyz.daaren.chess.core
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.game.GameResult
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.game.GameUtils
-import io.github.alluhemanth.chess.core.move.LegalMoveGenerator
-import io.github.alluhemanth.chess.core.move.Move
-import io.github.alluhemanth.chess.core.piece.PieceColor
-import io.github.alluhemanth.chess.core.utils.FenUtils
-import io.github.alluhemanth.chess.core.utils.PgnUtils
-import io.github.alluhemanth.chess.core.utils.SanUtils
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.GameResult
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.game.GameUtils
+import xyz.daaren.chess.core.move.LegalMoveGenerator
+import xyz.daaren.chess.core.move.Move
+import xyz.daaren.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.utils.FenUtils
+import xyz.daaren.chess.core.utils.PgnUtils
+import xyz.daaren.chess.core.utils.SanUtils
 
 /**
  * The ChessGame class represents a complete chess game, managing the board state, move history, and game logic.
@@ -92,7 +92,7 @@ class ChessGame(
     fun getGameState(): GameState = gameState
 
     /**
-     * Returns the [io.github.alluhemanth.chess.core.piece.PieceColor] of the player whose turn it is.
+     * Returns the [xyz.daaren.chess.core.piece.PieceColor] of the player whose turn it is.
      *
      * @example
      * ```kotlin
@@ -108,7 +108,7 @@ class ChessGame(
     fun isGameOver(): Boolean = getGameResult().isOver
 
     /**
-     * Returns the current [io.github.alluhemanth.chess.core.game.GameResult], determining if the game is ongoing, drawn, or won.
+     * Returns the current [xyz.daaren.chess.core.game.GameResult], determining if the game is ongoing, drawn, or won.
      */
     fun getGameResult(): GameResult {
         if (gameState.halfMoveClock >= 100) {

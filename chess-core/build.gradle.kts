@@ -11,8 +11,8 @@ plugins {
     //id("org.jetbrains.dokka") version "2.0.0"
 }
 
-group = "io.github.alluhemanth"
-version = "1.0.2"
+group = "xyz.daaren"
+version = "1.0.0"
 
 kotlin {
     jvm()
@@ -48,7 +48,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.alluhemanth.chess.core"
+    namespace = "xyz.daaren.chess.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -62,7 +62,12 @@ android {
 mavenPublishing {
     publishToMavenCentral()
 
-    signAllPublications()
+    // Sign only when a key is configured, so publishToMavenLocal works without one.
+    if (providers.gradleProperty("signingInMemoryKey").isPresent ||
+        providers.gradleProperty("signing.keyId").isPresent
+    ) {
+        signAllPublications()
+    }
 
     coordinates(group.toString(), "chess-core", version.toString())
 
@@ -70,7 +75,7 @@ mavenPublishing {
         name = "chess-core-kmp"
         description = "A Chess library."
         inceptionYear = "2025"
-        url = "https://github.com/alluhemanth/chess-core-kmp/"
+        url = "https://github.com/daarenx/chess-core-kmp/"
         licenses {
             license {
                 name.set("The MIT License")
@@ -80,15 +85,15 @@ mavenPublishing {
         }
         developers {
             developer {
-                id = "alluhemanth"
-                name = "Hemanth"
-                url = "https://github.com/alluhemanth"
+                id = "DaarenX"
+                name = "Alex Vogelsang"
+                url = "https://github.com/daarenx"
             }
         }
         scm {
-            url.set("https://github.com/alluhemanth/chess-core-kmp")
-            connection.set("scm:git:git://github.com/alluhemanth/chess-core-kmp.git")
-            developerConnection.set("scm:git:ssh://github.com:alluhemanth/chess-core-kmp.git")
+            url.set("https://github.com/daarenx/chess-core-kmp")
+            connection.set("scm:git:git://github.com/daarenx/chess-core-kmp.git")
+            developerConnection.set("scm:git:ssh://github.com:daarenx/chess-core-kmp.git")
         }
     }
 }

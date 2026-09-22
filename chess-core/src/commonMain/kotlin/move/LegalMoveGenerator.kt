@@ -1,11 +1,11 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.board.File
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.game.GameUtils
-import io.github.alluhemanth.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.game.GameUtils
+import xyz.daaren.chess.core.piece.PieceColor
 
 /**
  * Generates all legal moves for the current player, filtering out pseudo-legal moves

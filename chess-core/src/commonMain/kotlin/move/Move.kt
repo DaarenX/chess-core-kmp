@@ -1,7 +1,7 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.piece.PieceType
 
 /**
  * Represents a chess move, including source and destination squares,

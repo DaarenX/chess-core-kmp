@@ -1,9 +1,9 @@
-package io.github.alluhemanth.chess.core.board
+package xyz.daaren.chess.core.board
 
-import io.github.alluhemanth.chess.core.move.Move
-import io.github.alluhemanth.chess.core.piece.Piece
-import io.github.alluhemanth.chess.core.piece.PieceColor
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.move.Move
+import xyz.daaren.chess.core.piece.Piece
+import xyz.daaren.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.piece.PieceType
 
 /**
  * The Board class represents the positions of pieces on a chessboard at a specific moment. It tracks which [Piece]

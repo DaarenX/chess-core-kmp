@@ -1,9 +1,9 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.game.CastlingAvailability
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.CastlingAvailability
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.piece.PieceColor
 import kotlin.test.assertEquals
 
 fun createDefaultGameState(): GameState {

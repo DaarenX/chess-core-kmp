@@ -1,8 +1,8 @@
-package io.github.alluhemanth.chess.core.board
+package xyz.daaren.chess.core.board
 
-import io.github.alluhemanth.chess.core.exception.FileOutOfBoundsException
-import io.github.alluhemanth.chess.core.exception.RankOutOfBoundsException
-import io.github.alluhemanth.chess.core.exception.SquareFormatException
+import xyz.daaren.chess.core.exception.FileOutOfBoundsException
+import xyz.daaren.chess.core.exception.RankOutOfBoundsException
+import xyz.daaren.chess.core.exception.SquareFormatException
 
 /**
  * The Square class represents a square on a chessboard, defined by a [File] (column) and a [Rank] (row).

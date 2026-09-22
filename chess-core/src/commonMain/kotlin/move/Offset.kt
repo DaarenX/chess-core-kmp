@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
 /**
  * Represents a relative offset in file and rank for chess piece movement.

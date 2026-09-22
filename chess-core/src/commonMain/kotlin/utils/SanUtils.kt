@@ -1,15 +1,15 @@
-package io.github.alluhemanth.chess.core.utils
+package xyz.daaren.chess.core.utils
 
-import io.github.alluhemanth.chess.core.ChessGame
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.board.File
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.game.GameResult
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.game.GameUtils
-import io.github.alluhemanth.chess.core.move.LegalMoveGenerator
-import io.github.alluhemanth.chess.core.move.Move
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.ChessGame
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.GameResult
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.game.GameUtils
+import xyz.daaren.chess.core.move.LegalMoveGenerator
+import xyz.daaren.chess.core.move.Move
+import xyz.daaren.chess.core.piece.PieceType
 
 /**
  * Utility object for converting between SAN (Standard Algebraic Notation) and [Move] objects.

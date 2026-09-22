@@ -1,10 +1,10 @@
-package io.github.alluhemanth.chess.core.game
+package xyz.daaren.chess.core.game
 
-import io.github.alluhemanth.chess.core.board.*
-import io.github.alluhemanth.chess.core.move.Move
-import io.github.alluhemanth.chess.core.move.PseudoLegalMoveGenerator
-import io.github.alluhemanth.chess.core.piece.PieceColor
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.board.*
+import xyz.daaren.chess.core.move.Move
+import xyz.daaren.chess.core.move.PseudoLegalMoveGenerator
+import xyz.daaren.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.piece.PieceType
 
 /**
  * Utility functions for chess game logic, including move application, check detection,

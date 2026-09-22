@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.exception
+package xyz.daaren.chess.core.exception
 
 /**
  * Base exception for all chess-core related errors.

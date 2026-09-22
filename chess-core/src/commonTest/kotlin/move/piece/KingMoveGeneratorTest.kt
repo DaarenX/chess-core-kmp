@@ -1,15 +1,15 @@
-package io.github.alluhemanth.chess.core.move.piece
+package xyz.daaren.chess.core.move.piece
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.game.CastlingAvailability
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.move.assertMoveDoesNotExist
-import io.github.alluhemanth.chess.core.move.assertMoveExists
-import io.github.alluhemanth.chess.core.move.createDefaultGameState
-import io.github.alluhemanth.chess.core.piece.Piece
-import io.github.alluhemanth.chess.core.piece.PieceColor
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.CastlingAvailability
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.move.assertMoveDoesNotExist
+import xyz.daaren.chess.core.move.assertMoveExists
+import xyz.daaren.chess.core.move.createDefaultGameState
+import xyz.daaren.chess.core.piece.Piece
+import xyz.daaren.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.piece.PieceType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

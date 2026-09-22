@@ -1,15 +1,15 @@
-package io.github.alluhemanth.chess.core.utils
+package xyz.daaren.chess.core.utils
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.board.File
-import io.github.alluhemanth.chess.core.board.Rank
-import io.github.alluhemanth.chess.core.board.Square
-import io.github.alluhemanth.chess.core.exception.InvalidFenException
-import io.github.alluhemanth.chess.core.game.CastlingAvailability
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.piece.Piece
-import io.github.alluhemanth.chess.core.piece.PieceColor
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Rank
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.exception.InvalidFenException
+import xyz.daaren.chess.core.game.CastlingAvailability
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.piece.Piece
+import xyz.daaren.chess.core.piece.PieceColor
+import xyz.daaren.chess.core.piece.PieceType
 
 /**
  * Utility object for parsing and generating FEN (Forsyth-Edwards Notation) strings.

@@ -1,9 +1,9 @@
-package io.github.alluhemanth.chess.core.move
+package xyz.daaren.chess.core.move
 
-import io.github.alluhemanth.chess.core.board.Board
-import io.github.alluhemanth.chess.core.game.GameState
-import io.github.alluhemanth.chess.core.move.piece.*
-import io.github.alluhemanth.chess.core.piece.PieceType
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.game.GameState
+import xyz.daaren.chess.core.move.piece.*
+import xyz.daaren.chess.core.piece.PieceType
 
 /**
  * Generates all pseudo-legal moves for a given board and game state.

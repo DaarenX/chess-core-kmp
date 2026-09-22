@@ -1,4 +1,4 @@
-package io.github.alluhemanth.chess.core.board
+package xyz.daaren.chess.core.board
 
 import kotlin.jvm.JvmInline
 
