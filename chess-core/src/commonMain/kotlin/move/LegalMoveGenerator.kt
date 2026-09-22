@@ -28,21 +28,26 @@ internal class LegalMoveGenerator {
 
         val pseudoLegalMoves = PseudoLegalMoveGenerator.getAllPseudoLegalMoves(board, currentPlayerGameState)
 
-        return pseudoLegalMoves.asSequence().filter { move ->
-            val (newBoard, _) = GameUtils.makeMove(board, currentPlayerGameState, move)
+        // Compute once whether the king is currently in check (used to reject castling)
+        val isInCheck = GameUtils.isKingInCheck(currentPlayerColor, board)
 
+        return pseudoLegalMoves.asSequence().filter { move ->
             if (move.isCastlingKingside || move.isCastlingQueenside) {
-                !GameUtils.isKingInCheck(currentPlayerColor, board) &&
+                // Can't castle out of check; path must be safe; king must not end in check
+                !isInCheck &&
                         isCastlingPathSafe(move, currentPlayerColor, board) &&
-                        !GameUtils.isKingInCheck(currentPlayerColor, newBoard)
+                        !GameUtils.isKingInCheck(currentPlayerColor, board.applyMove(move))
             } else {
-                !GameUtils.isKingInCheck(currentPlayerColor, newBoard)
+                // Only need the resulting board to verify the king isn't left in check
+                !GameUtils.isKingInCheck(currentPlayerColor, board.applyMove(move))
             }
         }.toList()
     }
 
     /**
      * Checks if the castling path is safe (i.e., not attacked by the opponent).
+     * The king's starting square (e-file) is NOT included here because the caller
+     * already verifies that the king is not in check before calling this method.
      *
      * @param castlingMove The castling move to check.
      * @param kingColor The color of the king.
@@ -57,13 +62,11 @@ internal class LegalMoveGenerator {
         val kingRank = castlingMove.from.rank
         val pathSquares = when {
             castlingMove.isCastlingKingside -> listOf(
-                Square(File('e'), kingRank),
                 Square(File('f'), kingRank),
                 Square(File('g'), kingRank)
             )
 
             castlingMove.isCastlingQueenside -> listOf(
-                Square(File('e'), kingRank),
                 Square(File('d'), kingRank),
                 Square(File('c'), kingRank)
             )

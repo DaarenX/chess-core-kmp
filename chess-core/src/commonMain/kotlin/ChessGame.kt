@@ -1,7 +1,6 @@
 package xyz.daaren.chess.core
 
 import xyz.daaren.chess.core.board.Board
-import xyz.daaren.chess.core.board.Square
 import xyz.daaren.chess.core.game.GameResult
 import xyz.daaren.chess.core.game.GameState
 import xyz.daaren.chess.core.game.GameUtils
@@ -161,19 +160,8 @@ class ChessGame(
      */
     fun makeMove(move: Move): Boolean {
         val legalMoves = getLegalMoves()
-        if (move !in legalMoves) return false
-
-        // Clear redo history
-        if (currentMoveIndex < moveHistory.size - 1) {
-            moveHistory.subList(currentMoveIndex + 1, moveHistory.size).clear()
-        }
-
-        val (newBoard, newGameState) = GameUtils.makeMove(board, gameState, move)
-        board = newBoard
-        gameState = newGameState
-        moveHistory.add(move)
-        currentMoveIndex++
-        positionHistory.add(getFen())
+        val legalMove = legalMoves.firstOrNull { it == move } ?: return false
+        applyLegalMove(legalMove)
         return true
     }
 
@@ -191,7 +179,8 @@ class ChessGame(
      */
     fun makeSanMove(san: String): Boolean {
         val move = SanUtils.sanToMove(san, board, gameState)
-        return makeMove(move)
+        applyLegalMove(move)
+        return true
     }
 
     /**
@@ -207,11 +196,30 @@ class ChessGame(
      * ```
      */
     fun makeUciMove(uci: String): Boolean {
-        val fromSquare = Square(uci.substring(0, 2))
-        val toSquare = Square(uci.substring(2, 4))
-        val promotionChar = uci.getOrNull(4)
-        val move = getLegalMoves().firstOrNull { it == Move(fromSquare, toSquare, promotionChar) }?: return false
-        return makeMove(move)
+        val move = Move.fromUci(uci, board, gameState) ?: return false
+        applyLegalMove(move)
+        return true
+    }
+
+    /**
+     * Applies a move that has already been verified as legal.
+     * This is the single point of mutation for the board and game state,
+     * avoiding redundant legal-move generation.
+     *
+     * @param move A legal move with all flags (capture, castling, en passant) populated.
+     */
+    private fun applyLegalMove(move: Move) {
+        // Clear redo history
+        if (currentMoveIndex < moveHistory.size - 1) {
+            moveHistory.subList(currentMoveIndex + 1, moveHistory.size).clear()
+        }
+
+        val (newBoard, newGameState) = GameUtils.makeMove(board, gameState, move)
+        board = newBoard
+        gameState = newGameState
+        moveHistory.add(move)
+        currentMoveIndex++
+        positionHistory.add(getFen())
     }
 
     /**

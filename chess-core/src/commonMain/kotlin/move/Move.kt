@@ -1,6 +1,8 @@
 package xyz.daaren.chess.core.move
 
+import xyz.daaren.chess.core.board.Board
 import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.game.GameState
 import xyz.daaren.chess.core.piece.PieceType
 
 /**
@@ -92,6 +94,40 @@ data class Move(
         result = 31 * result + to.hashCode()
         result = 31 * result + (promotionPieceType?.hashCode() ?: 0)
         return result
+    }
+
+    companion object {
+        private val legalMoveGenerator = LegalMoveGenerator()
+
+        /**
+         * Resolves a UCI (Universal Chess Interface) string into a fully-populated legal [Move]
+         * by generating legal moves a single time. Returns `null` if the UCI string does not
+         * correspond to a legal move in the given position.
+         *
+         * Unlike constructing a [Move] from squares and then searching [LegalMoveGenerator]
+         * separately, this method avoids redundant move generation.
+         *
+         * @param uci The UCI string representing the move (e.g., "e2e4", "e7e8q").
+         * @param board The current board state.
+         * @param gameState The current game state.
+         * @return The matching legal [Move] with all flags populated, or `null` if illegal.
+         */
+        fun fromUci(uci: String, board: Board, gameState: GameState): Move? {
+            val fromSquare = Square(uci.substring(0, 2))
+            val toSquare = Square(uci.substring(2, 4))
+            val promotionPieceType = uci.getOrNull(4)?.let { char ->
+                when (char.lowercaseChar()) {
+                    'q' -> PieceType.QUEEN
+                    'r' -> PieceType.ROOK
+                    'b' -> PieceType.BISHOP
+                    'n' -> PieceType.KNIGHT
+                    else -> null
+                }
+            }
+            return legalMoveGenerator.getAllLegalMoves(board, gameState).firstOrNull {
+                it.from == fromSquare && it.to == toSquare && it.promotionPieceType == promotionPieceType
+            }
+        }
     }
 
 }

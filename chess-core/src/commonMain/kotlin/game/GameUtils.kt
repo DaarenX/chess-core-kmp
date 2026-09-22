@@ -2,7 +2,6 @@ package xyz.daaren.chess.core.game
 
 import xyz.daaren.chess.core.board.*
 import xyz.daaren.chess.core.move.Move
-import xyz.daaren.chess.core.move.PseudoLegalMoveGenerator
 import xyz.daaren.chess.core.piece.PieceColor
 import xyz.daaren.chess.core.piece.PieceType
 
@@ -143,15 +142,15 @@ object GameUtils {
      * @return True if the square is attacked, false otherwise.
      */
     fun isSquareAttackedBy(square: Square, attackerColor: PieceColor, board: Board): Boolean {
+        // 1. Pawn attacks — check the two diagonal squares where an attacking pawn would sit
         val pawnAttackDirection = if (attackerColor == PieceColor.WHITE) 1 else -1
         val pawnRank = square.rank - pawnAttackDirection
 
         if (pawnRank in Rank.getRange()) {
-            for (fileOffset in listOf(-1, 1)) {
+            for (fileOffset in intArrayOf(-1, 1)) {
                 val pawnFile = square.file + fileOffset
                 if (pawnFile in File.getRange()) {
-                    val pawnSquare = Square(pawnFile, pawnRank)
-                    val piece = board[pawnSquare]
+                    val piece = board[pawnFile, pawnRank]
                     if (piece != null && piece.color == attackerColor && piece.pieceType == PieceType.PAWN) {
                         return true
                     }
@@ -159,20 +158,85 @@ object GameUtils {
             }
         }
 
-        val opponentGameState = GameState(
-            currentPlayer = attackerColor,
-            castlingRights = emptyMap(),
-            enPassantTargetSquare = null,
-            halfMoveClock = 0,
-            fullMoveNumber = 0
-        )
-
-        val opponentMoves = PseudoLegalMoveGenerator.getAllPseudoLegalMoves(board, opponentGameState)
-        return opponentMoves.any {
-            val piece = board[it.from]
-            it.to == square && piece?.pieceType != PieceType.PAWN
+        // 2. Knight attacks — check all 8 L-shaped offsets
+        for ((fd, rd) in KNIGHT_OFFSETS) {
+            val f = square.file + fd
+            val r = square.rank + rd
+            if (f in File.getRange() && r in Rank.getRange()) {
+                val piece = board[f, r]
+                if (piece != null && piece.color == attackerColor && piece.pieceType == PieceType.KNIGHT) {
+                    return true
+                }
+            }
         }
+
+        // 3. King attacks — check all 8 adjacent squares
+        for ((fd, rd) in KING_OFFSETS) {
+            val f = square.file + fd
+            val r = square.rank + rd
+            if (f in File.getRange() && r in Rank.getRange()) {
+                val piece = board[f, r]
+                if (piece != null && piece.color == attackerColor && piece.pieceType == PieceType.KING) {
+                    return true
+                }
+            }
+        }
+
+        // 4. Sliding piece attacks — cast rays outward from the target square
+        //    Diagonal rays detect bishops and queens; orthogonal rays detect rooks and queens
+        for ((fd, rd) in DIAGONAL_OFFSETS) {
+            if (castRayHits(square, fd, rd, attackerColor, PieceType.BISHOP, board)) return true
+        }
+        for ((fd, rd) in ORTHOGONAL_OFFSETS) {
+            if (castRayHits(square, fd, rd, attackerColor, PieceType.ROOK, board)) return true
+        }
+
+        return false
     }
+
+    /**
+     * Casts a ray from [origin] in the direction ([fileDelta], [rankDelta]) and checks
+     * whether the first piece encountered is an attacker of [attackerColor] that is either
+     * a [slidingType] (bishop for diagonals, rook for orthogonals) or a queen.
+     */
+    private fun castRayHits(
+        origin: Square,
+        fileDelta: Int,
+        rankDelta: Int,
+        attackerColor: PieceColor,
+        slidingType: PieceType,
+        board: Board
+    ): Boolean {
+        var f = origin.file + fileDelta
+        var r = origin.rank + rankDelta
+        while (f in File.getRange() && r in Rank.getRange()) {
+            val piece = board[f, r]
+            if (piece != null) {
+                return piece.color == attackerColor &&
+                        (piece.pieceType == slidingType || piece.pieceType == PieceType.QUEEN)
+            }
+            f += fileDelta
+            r += rankDelta
+        }
+        return false
+    }
+
+    // Pre-computed offset tables
+    private val KNIGHT_OFFSETS = arrayOf(
+        intArrayOf(-2, -1), intArrayOf(-2, 1), intArrayOf(-1, -2), intArrayOf(-1, 2),
+        intArrayOf(1, -2), intArrayOf(1, 2), intArrayOf(2, -1), intArrayOf(2, 1)
+    )
+    private val KING_OFFSETS = arrayOf(
+        intArrayOf(-1, -1), intArrayOf(-1, 0), intArrayOf(-1, 1),
+        intArrayOf(0, -1), intArrayOf(0, 1),
+        intArrayOf(1, -1), intArrayOf(1, 0), intArrayOf(1, 1)
+    )
+    private val DIAGONAL_OFFSETS = arrayOf(
+        intArrayOf(-1, -1), intArrayOf(-1, 1), intArrayOf(1, -1), intArrayOf(1, 1)
+    )
+    private val ORTHOGONAL_OFFSETS = arrayOf(
+        intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1)
+    )
 
     /**
      * Checks if the given [board] position has insufficient material for either player to checkmate.
