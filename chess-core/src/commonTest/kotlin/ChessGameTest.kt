@@ -8,7 +8,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ChessGameTest {
-
     @Test
     fun initialGameSetupIsCorrect() {
         val game = ChessGame()
@@ -36,10 +35,13 @@ class ChessGameTest {
     fun makeMove_illegalMove_doesNotChangeState() {
         val game = ChessGame()
         val initialFen = game.getFen()
-        val illegalMove = xyz.daaren.chess.core.move.Move(
-            xyz.daaren.chess.core.board.Square("e2"),
-            xyz.daaren.chess.core.board.Square("e5")
-        )
+        val illegalMove =
+            xyz.daaren.chess.core.move.Move(
+                xyz.daaren.chess.core.board
+                    .Square("e2"),
+                xyz.daaren.chess.core.board
+                    .Square("e5"),
+            )
 
         val moveMade = game.makeMove(illegalMove)
 
@@ -160,10 +162,10 @@ class ChessGameTest {
     fun getGameResult_foolsMate_returnsWinForBlack() {
         val game = ChessGame()
 
-        game.makeSanMove("f3")     // White
-        game.makeSanMove("e5")     // Black
-        game.makeSanMove("g4")     // White
-        game.makeSanMove("Qh4")    // Black delivers checkmate
+        game.makeSanMove("f3") // White
+        game.makeSanMove("e5") // Black
+        game.makeSanMove("g4") // White
+        game.makeSanMove("Qh4") // Black delivers checkmate
 
         assertTrue(game.isGameOver(), "Game should be over after Fool's Mate")
 
@@ -172,10 +174,9 @@ class ChessGameTest {
         assertEquals(
             PieceColor.BLACK,
             result.winner,
-            "Winner should be Black"
+            "Winner should be Black",
         )
     }
-
 
     @Test
     fun getGameResult_stalemate_returnsDraw() {
@@ -188,10 +189,9 @@ class ChessGameTest {
         assertEquals(
             GameResult.Draw.Stalemate,
             result,
-            "Game result should be stalemate"
+            "Game result should be stalemate",
         )
     }
-
 
     @Test
     fun getGameResult_threefoldRepetition_returnsDraw() {
@@ -222,10 +222,9 @@ class ChessGameTest {
         assertEquals(
             GameResult.Draw.FiftyMoveRule,
             result,
-            "Game result should be fifty-move rule draw"
+            "Game result should be fifty-move rule draw",
         )
     }
-
 
     @Test
     fun getGameResult_insufficientMaterial_returnsDraw() {

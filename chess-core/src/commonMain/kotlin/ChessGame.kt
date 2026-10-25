@@ -64,9 +64,8 @@ class ChessGame(
     private var gameState: GameState = GameState.Companion.newGame(),
     private val moveHistory: MutableList<Move> = mutableListOf(),
     private var currentMoveIndex: Int = -1,
-    private val positionHistory: MutableList<String> = mutableListOf()
+    private val positionHistory: MutableList<String> = mutableListOf(),
 ) {
-
     private val legalMoveGenerator = LegalMoveGenerator()
 
     init {
@@ -142,8 +141,7 @@ class ChessGame(
      * println(moves)
      * ```
      */
-    fun getLegalMoves(): List<Move> =
-        legalMoveGenerator.getAllLegalMoves(board, gameState)
+    fun getLegalMoves(): List<Move> = legalMoveGenerator.getAllLegalMoves(board, gameState)
 
     /**
      * Makes the given [move] if it is legal, updating the board and game state.
@@ -270,8 +268,7 @@ class ChessGame(
      * println(game.getFen())
      * ```
      */
-    fun getFen(): String =
-        FenUtils.getFenFromBoardAndState(board, gameState)
+    fun getFen(): String = FenUtils.getFenFromBoardAndState(board, gameState)
 
     /**
      * Loads a position from a FEN string, resetting move and position history.
@@ -340,9 +337,7 @@ class ChessGame(
     /**
      * Retrieve a read-only copy of the move history.
      */
-    fun getMoveHistory(): List<Move> {
-        return moveHistory.toList()
-    }
+    fun getMoveHistory(): List<Move> = moveHistory.toList()
 
     /**
      * Go to the move with specified index.
@@ -362,5 +357,4 @@ class ChessGame(
         replayMoves()
         return true
     }
-
 }

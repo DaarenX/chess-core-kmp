@@ -8,5 +8,5 @@ package xyz.daaren.chess.core.move
  */
 data class Offset(
     val fileDelta: Int,
-    val rankDelta: Int
+    val rankDelta: Int,
 )

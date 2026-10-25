@@ -28,7 +28,6 @@ import xyz.daaren.chess.core.game.PgnMove
  * ```
  */
 object PgnUtils {
-
     /**
      * Parses a single PGN game string into a [PgnGame] object.
      *
@@ -111,10 +110,11 @@ object PgnUtils {
      * @return A list of [PgnGame] objects.
      */
     fun parsePgnGames(pgnText: String): List<PgnGame> {
-        val gameSections = pgnText
-            .split(Regex("(?=\\[Event)"))
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
+        val gameSections =
+            pgnText
+                .split(Regex("(?=\\[Event)"))
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
 
         return gameSections.map { parsePgn(it) }
     }
@@ -125,17 +125,16 @@ object PgnUtils {
      * @param pgnGame The PGN game whose moves to apply.
      * @return The resulting [Board] and [GameState] after applying all moves.
      */
-    fun applyPgnMoves(
-        pgnGame: PgnGame
-    ): Pair<Board, GameState> {
+    fun applyPgnMoves(pgnGame: PgnGame): Pair<Board, GameState> {
         var (currentBoard, currentGameState) = FenUtils.parseFen(FenUtils.DEFAULT_FEN)
         val sanUtils = SanUtils
 
         for (pgnMove in pgnGame.moves) {
             try {
-                val move = sanUtils.sanToMove(pgnMove.san, currentBoard, currentGameState).copy(
-                    comments = pgnMove.comments
-                )
+                val move =
+                    sanUtils.sanToMove(pgnMove.san, currentBoard, currentGameState).copy(
+                        comments = pgnMove.comments,
+                    )
                 val (newBoard, newGameState) = GameUtils.makeMove(currentBoard, currentGameState, move)
                 currentBoard = newBoard
                 currentGameState = newGameState

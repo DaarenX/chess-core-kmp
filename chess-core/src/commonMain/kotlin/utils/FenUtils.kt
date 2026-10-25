@@ -38,7 +38,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * ```
  */
 object FenUtils {
-
     /** The default FEN string for the standard chess starting position. */
     const val DEFAULT_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -65,7 +64,10 @@ object FenUtils {
             var fileIdx = 0
             for (char in rankStr) {
                 when {
-                    char.isDigit() -> fileIdx += char.digitToInt()
+                    char.isDigit() -> {
+                        fileIdx += char.digitToInt()
+                    }
+
                     char.isLetter() -> {
                         if (fileIdx > 7) throw InvalidFenException("Invalid FEN: File index out of bounds in rank ${8 - rankIdx}")
 
@@ -81,15 +83,20 @@ object FenUtils {
 
                         // Track kings count
                         if (type == PieceType.KING) {
-                            if (color == PieceColor.WHITE) whiteKingCount++
-                            else blackKingCount++
+                            if (color == PieceColor.WHITE) {
+                                whiteKingCount++
+                            } else {
+                                blackKingCount++
+                            }
                         }
 
                         board[file, rank] = Piece(type, color)
                         fileIdx++
                     }
 
-                    else -> throw InvalidFenException("Invalid FEN: Unexpected character '$char' in piece placement")
+                    else -> {
+                        throw InvalidFenException("Invalid FEN: Unexpected character '$char' in piece placement")
+                    }
                 }
             }
             if (fileIdx != 8) throw InvalidFenException("Invalid FEN: Rank ${8 - rankIdx} does not have 8 files")
@@ -97,64 +104,75 @@ object FenUtils {
 
         // Validate exactly one king for each color
         if (whiteKingCount != 1 || blackKingCount != 1) {
-            throw InvalidFenException("Invalid FEN: must have exactly one king for each color (found $whiteKingCount white, $blackKingCount black)")
+            throw InvalidFenException(
+                "Invalid FEN: must have exactly one king for each color (found $whiteKingCount white, $blackKingCount black)",
+            )
         }
 
-        val activeColor = when (parts[1]) {
-            "w" -> PieceColor.WHITE
-            "b" -> PieceColor.BLACK
-            else -> throw InvalidFenException("Invalid FEN: active color must be 'w' or 'b'")
-        }
+        val activeColor =
+            when (parts[1]) {
+                "w" -> PieceColor.WHITE
+                "b" -> PieceColor.BLACK
+                else -> throw InvalidFenException("Invalid FEN: active color must be 'w' or 'b'")
+            }
 
         val castlingString = parts[2]
         if (!castlingString.matches(Regex("(-|[KQkq]+)"))) {
             throw InvalidFenException("Invalid FEN: castling rights string: $castlingString")
         }
 
-        val whiteCastling = CastlingAvailability(
-            kingside = castlingString.contains('K'),
-            queenside = castlingString.contains('Q')
-        )
-        val blackCastling = CastlingAvailability(
-            kingside = castlingString.contains('k'),
-            queenside = castlingString.contains('q')
-        )
+        val whiteCastling =
+            CastlingAvailability(
+                kingside = castlingString.contains('K'),
+                queenside = castlingString.contains('Q'),
+            )
+        val blackCastling =
+            CastlingAvailability(
+                kingside = castlingString.contains('k'),
+                queenside = castlingString.contains('q'),
+            )
 
-        val castlingRights = mapOf(
-            PieceColor.WHITE to whiteCastling,
-            PieceColor.BLACK to blackCastling
-        )
+        val castlingRights =
+            mapOf(
+                PieceColor.WHITE to whiteCastling,
+                PieceColor.BLACK to blackCastling,
+            )
 
-        val enPassantTargetSquare = if (parts[3] == "-") {
-            null
-        } else {
-            val square = try {
-                Square(parts[3])
-            } catch (e: Exception) {
-                throw InvalidFenException("Invalid en passant square in FEN: ${parts[3]}", e)
+        val enPassantTargetSquare =
+            if (parts[3] == "-") {
+                null
+            } else {
+                val square =
+                    try {
+                        Square(parts[3])
+                    } catch (e: Exception) {
+                        throw InvalidFenException("Invalid en passant square in FEN: ${parts[3]}", e)
+                    }
+
+                // En passant square must be on rank 3 or 6
+                if (square.rank.value !in setOf(3, 6)) {
+                    throw InvalidFenException("Invalid en passant square in FEN: ${parts[3]}")
+                }
+
+                square
             }
 
-            // En passant square must be on rank 3 or 6
-            if (square.rank.value !in setOf(3, 6)) {
-                throw InvalidFenException("Invalid en passant square in FEN: ${parts[3]}")
-            }
+        val halfMoveClock =
+            parts.getOrNull(4)?.toIntOrNull()
+                ?: throw InvalidFenException("Invalid FEN: missing or invalid halfmove clock")
 
-            square
-        }
+        val fullMoveNumber =
+            parts.getOrNull(5)?.toIntOrNull()
+                ?: throw InvalidFenException("Invalid FEN: missing or invalid fullmove number")
 
-        val halfMoveClock = parts.getOrNull(4)?.toIntOrNull()
-            ?: throw InvalidFenException("Invalid FEN: missing or invalid halfmove clock")
-
-        val fullMoveNumber = parts.getOrNull(5)?.toIntOrNull()
-            ?: throw InvalidFenException("Invalid FEN: missing or invalid fullmove number")
-
-        val gameState = GameState(
-            currentPlayer = activeColor,
-            castlingRights = castlingRights,
-            enPassantTargetSquare = enPassantTargetSquare,
-            halfMoveClock = halfMoveClock,
-            fullMoveNumber = fullMoveNumber
-        )
+        val gameState =
+            GameState(
+                currentPlayer = activeColor,
+                castlingRights = castlingRights,
+                enPassantTargetSquare = enPassantTargetSquare,
+                halfMoveClock = halfMoveClock,
+                fullMoveNumber = fullMoveNumber,
+            )
 
         return Pair(board, gameState)
     }
@@ -166,8 +184,8 @@ object FenUtils {
      * @return The corresponding [PieceType].
      * @throws InvalidFenException if the character does not represent a valid piece type.
      */
-    private fun pieceTypeFromFenChar(c: Char): PieceType {
-        return when (c) {
+    private fun pieceTypeFromFenChar(c: Char): PieceType =
+        when (c) {
             'p' -> PieceType.PAWN
             'r' -> PieceType.ROOK
             'n' -> PieceType.KNIGHT
@@ -176,9 +194,9 @@ object FenUtils {
             'k' -> PieceType.KING
             else -> throw InvalidFenException("Invalid FEN piece char: $c")
         }
-    }
 
     // Rendering Methods
+
     /**
      * Generates a FEN string from the given [board] and [gameState].
      *
@@ -186,21 +204,24 @@ object FenUtils {
      * @param gameState The game state to convert.
      * @return The FEN string representing the position.
      */
-    fun getFenFromBoardAndState(board: Board, gameState: GameState): String {
-        val fields = listOf(
-            renderPiecePlacement(board),
-            if (gameState.currentPlayer == PieceColor.WHITE) "w" else "b",
-            renderCastlingRights(
-                gameState.castlingRights[PieceColor.WHITE],
-                gameState.castlingRights[PieceColor.BLACK]
-            ),
-            gameState.enPassantTargetSquare?.toString() ?: "-",
-            gameState.halfMoveClock.toString(),
-            gameState.fullMoveNumber.toString()
-        )
+    fun getFenFromBoardAndState(
+        board: Board,
+        gameState: GameState,
+    ): String {
+        val fields =
+            listOf(
+                renderPiecePlacement(board),
+                if (gameState.currentPlayer == PieceColor.WHITE) "w" else "b",
+                renderCastlingRights(
+                    gameState.castlingRights[PieceColor.WHITE],
+                    gameState.castlingRights[PieceColor.BLACK],
+                ),
+                gameState.enPassantTargetSquare?.toString() ?: "-",
+                gameState.halfMoveClock.toString(),
+                gameState.fullMoveNumber.toString(),
+            )
         return fields.joinToString(" ")
     }
-
 
     /**
      * Renders the piece placement part of a FEN string from the given [board].
@@ -239,7 +260,10 @@ object FenUtils {
      * @param black The black castling availability.
      * @return The castling rights string.
      */
-    private fun renderCastlingRights(white: CastlingAvailability?, black: CastlingAvailability?): String {
+    private fun renderCastlingRights(
+        white: CastlingAvailability?,
+        black: CastlingAvailability?,
+    ): String {
         val rights = mutableListOf<Char>()
         if (white?.kingside == true) rights += 'K'
         if (white?.queenside == true) rights += 'Q'

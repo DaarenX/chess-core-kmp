@@ -37,6 +37,9 @@ If you'd like to contribute code, follow these steps:
 
 ### Code Style
 
+Code is formatted with [ktlint](https://pinterest.github.io/ktlint/) (`ktlint_official` style, configured in
+`.editorconfig`). Run `./gradlew ktlintFormat` before committing; CI fails on `./gradlew ktlintCheck` violations.
+
 Please follow the existing code style and conventions used in the project. Ensure your code is well-documented and
 includes unit tests where applicable.
 

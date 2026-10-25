@@ -14,7 +14,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class QueenMoveGeneratorTest {
-
     private lateinit var board: Board
     private lateinit var gameState: GameState
     private lateinit var queenMoveGenerator: QueenMoveGenerator

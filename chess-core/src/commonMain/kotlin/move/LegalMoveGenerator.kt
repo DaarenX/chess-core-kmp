@@ -12,7 +12,6 @@ import xyz.daaren.chess.core.piece.PieceColor
  * that would leave the player's king in check.
  */
 internal class LegalMoveGenerator {
-
     /**
      * Returns a list of all legal moves for the current player.
      *
@@ -22,7 +21,7 @@ internal class LegalMoveGenerator {
      */
     fun getAllLegalMoves(
         board: Board,
-        currentPlayerGameState: GameState
+        currentPlayerGameState: GameState,
     ): List<Move> {
         val currentPlayerColor = currentPlayerGameState.currentPlayer
 
@@ -31,17 +30,19 @@ internal class LegalMoveGenerator {
         // Compute once whether the king is currently in check (used to reject castling)
         val isInCheck = GameUtils.isKingInCheck(currentPlayerColor, board)
 
-        return pseudoLegalMoves.asSequence().filter { move ->
-            if (move.isCastlingKingside || move.isCastlingQueenside) {
-                // Can't castle out of check; path must be safe; king must not end in check
-                !isInCheck &&
+        return pseudoLegalMoves
+            .asSequence()
+            .filter { move ->
+                if (move.isCastlingKingside || move.isCastlingQueenside) {
+                    // Can't castle out of check; path must be safe; king must not end in check
+                    !isInCheck &&
                         isCastlingPathSafe(move, currentPlayerColor, board) &&
                         !GameUtils.isKingInCheck(currentPlayerColor, board.applyMove(move))
-            } else {
-                // Only need the resulting board to verify the king isn't left in check
-                !GameUtils.isKingInCheck(currentPlayerColor, board.applyMove(move))
-            }
-        }.toList()
+                } else {
+                    // Only need the resulting board to verify the king isn't left in check
+                    !GameUtils.isKingInCheck(currentPlayerColor, board.applyMove(move))
+                }
+            }.toList()
     }
 
     /**
@@ -57,22 +58,29 @@ internal class LegalMoveGenerator {
     private fun isCastlingPathSafe(
         castlingMove: Move,
         kingColor: PieceColor,
-        board: Board
+        board: Board,
     ): Boolean {
         val kingRank = castlingMove.from.rank
-        val pathSquares = when {
-            castlingMove.isCastlingKingside -> listOf(
-                Square(File('f'), kingRank),
-                Square(File('g'), kingRank)
-            )
+        val pathSquares =
+            when {
+                castlingMove.isCastlingKingside -> {
+                    listOf(
+                        Square(File('f'), kingRank),
+                        Square(File('g'), kingRank),
+                    )
+                }
 
-            castlingMove.isCastlingQueenside -> listOf(
-                Square(File('d'), kingRank),
-                Square(File('c'), kingRank)
-            )
+                castlingMove.isCastlingQueenside -> {
+                    listOf(
+                        Square(File('d'), kingRank),
+                        Square(File('c'), kingRank),
+                    )
+                }
 
-            else -> return false
-        }
+                else -> {
+                    return false
+                }
+            }
 
         return pathSquares.none { square ->
             GameUtils.isSquareAttackedBy(square, kingColor.opposite(), board)

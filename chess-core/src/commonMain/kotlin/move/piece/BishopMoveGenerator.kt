@@ -12,7 +12,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * Generates all pseudo-legal moves for a bishop.
  */
 internal class BishopMoveGenerator : PieceMoveGenerator {
-
     /**
      * Generates all pseudo-legal bishop moves from the given square.
      *
@@ -26,14 +25,17 @@ internal class BishopMoveGenerator : PieceMoveGenerator {
         piece: Piece,
         fromSquare: Square,
         board: Board,
-        gameState: GameState
+        gameState: GameState,
     ): List<Move> {
         require(piece.pieceType == PieceType.BISHOP) { "Piece must be a BISHOP" }
 
-        val bishopDirections = listOf(
-            Offset(1, 1), Offset(1, -1),
-            Offset(-1, 1), Offset(-1, -1)
-        )
+        val bishopDirections =
+            listOf(
+                Offset(1, 1),
+                Offset(1, -1),
+                Offset(-1, 1),
+                Offset(-1, -1),
+            )
 
         return SlidingMoveGenerator.generateSlidingMoves(piece, fromSquare, board, bishopDirections)
     }

@@ -1,6 +1,10 @@
 package xyz.daaren.chess.core.move.piece
 
-import xyz.daaren.chess.core.board.*
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Rank
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.board.contains
 import xyz.daaren.chess.core.game.GameState
 import xyz.daaren.chess.core.move.Move
 import xyz.daaren.chess.core.piece.Piece
@@ -13,7 +17,6 @@ import kotlin.math.abs
  * promotions, and en passant.
  */
 internal class PawnMoveGenerator : PieceMoveGenerator {
-
     /**
      * Holds pawn movement properties for a given color.
      */
@@ -21,16 +24,17 @@ internal class PawnMoveGenerator : PieceMoveGenerator {
         val moveDirection: Int,
         val startingRank: Rank,
         val promotionRank: Rank,
-        val enPassantEligibleRank: Rank
+        val enPassantEligibleRank: Rank,
     )
 
     companion object {
-        private val PROMOTABLE_PIECE_TYPES = setOf(
-            PieceType.QUEEN,
-            PieceType.ROOK,
-            PieceType.BISHOP,
-            PieceType.KNIGHT
-        )
+        private val PROMOTABLE_PIECE_TYPES =
+            setOf(
+                PieceType.QUEEN,
+                PieceType.ROOK,
+                PieceType.BISHOP,
+                PieceType.KNIGHT,
+            )
     }
 
     /**
@@ -57,10 +61,11 @@ internal class PawnMoveGenerator : PieceMoveGenerator {
         val rank7 = Rank(7)
         val rank8 = Rank(8)
 
-        val props = when (piece.color) {
-            PieceColor.WHITE -> PawnMovementProperties(1, rank2, rank8, rank5)
-            PieceColor.BLACK -> PawnMovementProperties(-1, rank7, rank1, rank4)
-        }
+        val props =
+            when (piece.color) {
+                PieceColor.WHITE -> PawnMovementProperties(1, rank2, rank8, rank5)
+                PieceColor.BLACK -> PawnMovementProperties(-1, rank7, rank1, rank4)
+            }
 
         val moves = mutableListOf<Move>()
         addForwardMoves(moves, fromSquare, board, props)
@@ -142,8 +147,8 @@ internal class PawnMoveGenerator : PieceMoveGenerator {
                     from = fromSquare,
                     to = enPassantSquare,
                     isCapture = true,
-                    isEnPassantCapture = true
-                )
+                    isEnPassantCapture = true,
+                ),
             )
         }
     }
@@ -156,7 +161,7 @@ internal class PawnMoveGenerator : PieceMoveGenerator {
         fromSquare: Square,
         toSquare: Square,
         isCapture: Boolean,
-        promotionRank: Rank
+        promotionRank: Rank,
     ) {
         if (toSquare.rank == promotionRank) {
             for (type in PROMOTABLE_PIECE_TYPES) {

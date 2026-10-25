@@ -8,7 +8,7 @@ data class PerftDetailedResults(
     var castles: Long = 0L,
     var promotions: Long = 0L,
     var checks: Long = 0L,
-    var checkmates: Long = 0L
+    var checkmates: Long = 0L,
     // Discovery checks and double checks are more complex to isolate cleanly
     // for standard Perft and are often omitted unless specifically needed.
     // We'll stick to the common ones for now.
@@ -23,7 +23,6 @@ data class PerftDetailedResults(
         checkmates += other.checkmates
     }
 
-    override fun toString(): String {
-        return "Nodes: $nodes, Captures: $captures, EP: $enPassant, Castles: $castles, Promotions: $promotions, Checks: $checks, Checkmates: $checkmates"
-    }
+    override fun toString(): String =
+        "Nodes: $nodes, Captures: $captures, EP: $enPassant, Castles: $castles, Promotions: $promotions, Checks: $checks, Checkmates: $checkmates"
 }

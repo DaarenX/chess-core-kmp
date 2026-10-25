@@ -8,5 +8,5 @@ package xyz.daaren.chess.core.exception
  */
 class FileOutOfBoundsException(
     message: String = "File value should be in the range of a..h",
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : ChessCoreException(message, cause)

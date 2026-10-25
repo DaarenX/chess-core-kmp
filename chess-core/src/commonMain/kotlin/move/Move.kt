@@ -38,15 +38,16 @@ data class Move(
     constructor(from: Square, to: Square, promotionChar: Char?) : this(
         from = from,
         to = to,
-        promotionPieceType = promotionChar?.let { char ->
-            when (char.lowercaseChar()) {
-                'q' -> PieceType.QUEEN
-                'r' -> PieceType.ROOK
-                'b' -> PieceType.BISHOP
-                'n' -> PieceType.KNIGHT
-                else -> null
-            }
-        }
+        promotionPieceType =
+            promotionChar?.let { char ->
+                when (char.lowercaseChar()) {
+                    'q' -> PieceType.QUEEN
+                    'r' -> PieceType.ROOK
+                    'b' -> PieceType.BISHOP
+                    'n' -> PieceType.KNIGHT
+                    else -> null
+                }
+            },
     )
 
     /**
@@ -59,16 +60,14 @@ data class Move(
     constructor(from: String, to: String, promotionPieceType: PieceType? = null) : this(
         from = Square(from),
         to = Square(to),
-        promotionPieceType = promotionPieceType
+        promotionPieceType = promotionPieceType,
     )
 
     /**
      * Returns a string representation of the move in coordinate notation,
      * including promotion if applicable.
      */
-    override fun toString(): String {
-        return "$from$to${promotionPieceType?.name?.first()?.lowercaseChar() ?: ""}"
-    }
+    override fun toString(): String = "$from$to${promotionPieceType?.name?.first()?.lowercaseChar() ?: ""}"
 
     /**
      * Returns the move in UCI (Universal Chess Interface) notation.
@@ -112,22 +111,26 @@ data class Move(
          * @param gameState The current game state.
          * @return The matching legal [Move] with all flags populated, or `null` if illegal.
          */
-        fun fromUci(uci: String, board: Board, gameState: GameState): Move? {
+        fun fromUci(
+            uci: String,
+            board: Board,
+            gameState: GameState,
+        ): Move? {
             val fromSquare = Square(uci.substring(0, 2))
             val toSquare = Square(uci.substring(2, 4))
-            val promotionPieceType = uci.getOrNull(4)?.let { char ->
-                when (char.lowercaseChar()) {
-                    'q' -> PieceType.QUEEN
-                    'r' -> PieceType.ROOK
-                    'b' -> PieceType.BISHOP
-                    'n' -> PieceType.KNIGHT
-                    else -> null
+            val promotionPieceType =
+                uci.getOrNull(4)?.let { char ->
+                    when (char.lowercaseChar()) {
+                        'q' -> PieceType.QUEEN
+                        'r' -> PieceType.ROOK
+                        'b' -> PieceType.BISHOP
+                        'n' -> PieceType.KNIGHT
+                        else -> null
+                    }
                 }
-            }
             return legalMoveGenerator.getAllLegalMoves(board, gameState).firstOrNull {
                 it.from == fromSquare && it.to == toSquare && it.promotionPieceType == promotionPieceType
             }
         }
     }
-
 }

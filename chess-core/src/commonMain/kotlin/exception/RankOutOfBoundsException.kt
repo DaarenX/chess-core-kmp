@@ -8,5 +8,5 @@ package xyz.daaren.chess.core.exception
  */
 class RankOutOfBoundsException(
     message: String = "Rank value should be in the range of 1..8",
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : ChessCoreException(message, cause)

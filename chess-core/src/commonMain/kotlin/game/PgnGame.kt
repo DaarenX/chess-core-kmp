@@ -10,5 +10,5 @@ package xyz.daaren.chess.core.game
 data class PgnGame(
     val tags: Map<String, String> = emptyMap(),
     val moves: List<PgnMove> = emptyList(),
-    val result: String = "*"
+    val result: String = "*",
 )

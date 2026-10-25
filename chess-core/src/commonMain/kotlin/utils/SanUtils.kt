@@ -37,7 +37,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * ```
  */
 object SanUtils {
-
     private val legalMoveGenerator = LegalMoveGenerator()
 
     /**
@@ -49,7 +48,11 @@ object SanUtils {
      * @return The corresponding [Move] object.
      * @throws IllegalArgumentException if the SAN string is invalid or ambiguous.
      */
-    fun sanToMove(san: String, board: Board, gameState: GameState): Move {
+    fun sanToMove(
+        san: String,
+        board: Board,
+        gameState: GameState,
+    ): Move {
         val legalMoves = legalMoveGenerator.getAllLegalMoves(board, gameState)
 
         val cleanSan = san.replace(Regex("[+#]"), "")
@@ -57,32 +60,35 @@ object SanUtils {
         if (cleanSan == "O-O") return legalMoves.first { it.isCastlingKingside }
         if (cleanSan == "O-O-O") return legalMoves.first { it.isCastlingQueenside }
 
-        val promotionPieceType = if (cleanSan.contains("=")) {
-            when (cleanSan.last().uppercaseChar()) {
-                'Q' -> PieceType.QUEEN
-                'R' -> PieceType.ROOK
-                'B' -> PieceType.BISHOP
-                'N' -> PieceType.KNIGHT
-                else -> throw IllegalArgumentException("Invalid promotion piece: ${cleanSan.last()}")
+        val promotionPieceType =
+            if (cleanSan.contains("=")) {
+                when (cleanSan.last().uppercaseChar()) {
+                    'Q' -> PieceType.QUEEN
+                    'R' -> PieceType.ROOK
+                    'B' -> PieceType.BISHOP
+                    'N' -> PieceType.KNIGHT
+                    else -> throw IllegalArgumentException("Invalid promotion piece: ${cleanSan.last()}")
+                }
+            } else {
+                null
             }
-        } else {
-            null
-        }
 
         val sanWithoutPromotion = cleanSan.substringBefore("=")
 
-        val pieceType = when {
-            sanWithoutPromotion.first().isUpperCase() -> pieceTypeFromSanChar(sanWithoutPromotion.first())
-            else -> PieceType.PAWN
-        }
+        val pieceType =
+            when {
+                sanWithoutPromotion.first().isUpperCase() -> pieceTypeFromSanChar(sanWithoutPromotion.first())
+                else -> PieceType.PAWN
+            }
 
         val destinationString = sanWithoutPromotion.takeLast(2)
         val destinationSquare = Square(destinationString)
 
-        var possibleMoves = legalMoves.filter {
-            val piece = board[it.from]
-            piece?.pieceType == pieceType && it.to == destinationSquare && it.promotionPieceType == promotionPieceType
-        }
+        var possibleMoves =
+            legalMoves.filter {
+                val piece = board[it.from]
+                piece?.pieceType == pieceType && it.to == destinationSquare && it.promotionPieceType == promotionPieceType
+            }
 
         if (possibleMoves.isEmpty()) {
             throw IllegalArgumentException("Illegal move: $san")
@@ -93,27 +99,29 @@ object SanUtils {
         }
 
         val sanPrefix = sanWithoutPromotion.dropLast(2)
-        val disambiguationHint = if (pieceType == PieceType.PAWN) {
-            sanPrefix.replace("x", "")
-        } else {
-            sanPrefix.drop(1).replace("x", "")
-        }
+        val disambiguationHint =
+            if (pieceType == PieceType.PAWN) {
+                sanPrefix.replace("x", "")
+            } else {
+                sanPrefix.drop(1).replace("x", "")
+            }
 
         if (disambiguationHint.isNotEmpty()) {
-            possibleMoves = possibleMoves.filter { move ->
-                if (disambiguationHint.length == 1) {
-                    val disChar = disambiguationHint.first()
-                    if (disChar in File.getRange()) {
-                        move.from.file.value == disChar
+            possibleMoves =
+                possibleMoves.filter { move ->
+                    if (disambiguationHint.length == 1) {
+                        val disChar = disambiguationHint.first()
+                        if (disChar in File.getRange()) {
+                            move.from.file.value == disChar
+                        } else {
+                            move.from.rank.value == disChar.digitToInt()
+                        }
+                    } else if (disambiguationHint.length == 2) {
+                        move.from == Square(disambiguationHint)
                     } else {
-                        move.from.rank.value == disChar.digitToInt()
+                        false
                     }
-                } else if (disambiguationHint.length == 2) {
-                    move.from == Square(disambiguationHint)
-                } else {
-                    false
                 }
-            }
         }
 
         if (possibleMoves.size == 1) {
@@ -135,7 +143,11 @@ object SanUtils {
      * @param gameState The current game state.
      * @return The SAN string representing the move.
      */
-    fun moveToSan(move: Move, board: Board, gameState: GameState): String {
+    fun moveToSan(
+        move: Move,
+        board: Board,
+        gameState: GameState,
+    ): String {
         if (move.isCastlingKingside) return "O-O"
         if (move.isCastlingQueenside) return "O-O-O"
 
@@ -149,11 +161,12 @@ object SanUtils {
         }
 
         val legalMoves = legalMoveGenerator.getAllLegalMoves(board, gameState)
-        val ambiguousMoves = legalMoves.filter {
-            it != move &&
+        val ambiguousMoves =
+            legalMoves.filter {
+                it != move &&
                     board[it.from]?.pieceType == pieceType &&
                     it.to == move.to
-        }
+            }
 
         if (ambiguousMoves.isNotEmpty() && pieceType != PieceType.PAWN) {
             val fileAmbiguous = ambiguousMoves.any { it.from.file == move.from.file }
@@ -198,8 +211,8 @@ object SanUtils {
      * @return The corresponding [PieceType].
      * @throws IllegalArgumentException if the character does not represent a valid piece type.
      */
-    private fun pieceTypeFromSanChar(char: Char): PieceType {
-        return when (char.uppercaseChar()) {
+    private fun pieceTypeFromSanChar(char: Char): PieceType =
+        when (char.uppercaseChar()) {
             'N' -> PieceType.KNIGHT
             'B' -> PieceType.BISHOP
             'R' -> PieceType.ROOK
@@ -207,8 +220,6 @@ object SanUtils {
             'K' -> PieceType.KING
             else -> throw IllegalArgumentException("Invalid piece type SAN char: $char")
         }
-    }
-
 
     /**
      * Returns the SAN character corresponding to the given [PieceType].
@@ -216,8 +227,8 @@ object SanUtils {
      * @param pieceType The piece type.
      * @return The SAN character for the piece type.
      */
-    private fun pieceToChar(pieceType: PieceType): Char {
-        return when (pieceType) {
+    private fun pieceToChar(pieceType: PieceType): Char =
+        when (pieceType) {
             PieceType.PAWN -> 'P'
             PieceType.KNIGHT -> 'N'
             PieceType.BISHOP -> 'B'
@@ -225,5 +236,4 @@ object SanUtils {
             PieceType.QUEEN -> 'Q'
             PieceType.KING -> 'K'
         }
-    }
 }

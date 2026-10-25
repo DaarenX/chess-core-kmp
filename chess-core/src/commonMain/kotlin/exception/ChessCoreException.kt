@@ -8,5 +8,5 @@ package xyz.daaren.chess.core.exception
  */
 sealed class ChessCoreException(
     message: String,
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : RuntimeException(message, cause)

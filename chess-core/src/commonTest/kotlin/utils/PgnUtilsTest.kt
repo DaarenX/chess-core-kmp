@@ -6,7 +6,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class PgnUtilsTest {
-
     @Test
     fun `parsePgn should correctly parse tags`() {
         val pgnString = """[Event "FIDE World Championship"]
@@ -40,20 +39,62 @@ class PgnUtilsTest {
 
     @Test
     fun `parsePgn should correctly parse moves`() {
-        val pgnString = """
+        val pgnString =
+            """
             1. d4 Nf6 2. Nf3 d5 3. e3 Bf5 4. c4 c6 5. Nc3 e6 6. Bd3 Bxd3 7. Qxd3 Nbd7 8. b3 Bd6 9. O-O O-O 10. Bb2 Qe7 
             11. Rad1 Rad8 12. Rfe1 dxc4 13. bxc4 e5 14. dxe5 Nxe5 15. Nxe5 Bxe5 16. Qe2 Rxd1 17. Rxd1 Rd8 18. Rxd8+ Qxd8
             19. Qd1 Qxd1+ 20. Nxd1 Bxb2 21. Nxb2 b5 22. f3 Kf8 23. Kf2 Ke7 1/2-1/2
-        """.trimIndent()
+            """.trimIndent()
 
-        val expectedMoves = listOf(
-            "d4", "Nf6", "Nf3", "d5", "e3", "Bf5", "c4", "c6", "Nc3", "e6", "Bd3", "Bxd3",
-            "Qxd3", "Nbd7", "b3", "Bd6", "O-O", "O-O", "Bb2", "Qe7", "Rad1", "Rad8", "Rfe1",
-            "dxc4", "bxc4", "e5", "dxe5", "Nxe5", "Nxe5", "Bxe5", "Qe2", "Rxd1", "Rxd1",
-            "Rd8", "Rxd8+", "Qxd8", "Qd1", "Qxd1+", "Nxd1", "Bxb2", "Nxb2", "b5", "f3",
-            "Kf8", "Kf2", "Ke7"
-        )
-
+        val expectedMoves =
+            listOf(
+                "d4",
+                "Nf6",
+                "Nf3",
+                "d5",
+                "e3",
+                "Bf5",
+                "c4",
+                "c6",
+                "Nc3",
+                "e6",
+                "Bd3",
+                "Bxd3",
+                "Qxd3",
+                "Nbd7",
+                "b3",
+                "Bd6",
+                "O-O",
+                "O-O",
+                "Bb2",
+                "Qe7",
+                "Rad1",
+                "Rad8",
+                "Rfe1",
+                "dxc4",
+                "bxc4",
+                "e5",
+                "dxe5",
+                "Nxe5",
+                "Nxe5",
+                "Bxe5",
+                "Qe2",
+                "Rxd1",
+                "Rxd1",
+                "Rd8",
+                "Rxd8+",
+                "Qxd8",
+                "Qd1",
+                "Qxd1+",
+                "Nxd1",
+                "Bxb2",
+                "Nxb2",
+                "b5",
+                "f3",
+                "Kf8",
+                "Kf2",
+                "Ke7",
+            )
 
         val pgnGame = PgnUtils.parsePgn(pgnString)
         assertEquals(expectedMoves, pgnGame.moves.map { it.san })
@@ -61,9 +102,10 @@ class PgnUtilsTest {
 
     @Test
     fun `parsePgn should handle comments and variations`() {
-        val pgnString = """[Event "Test"]
+        val pgnString =
+            """[Event "Test"]
             1. e4 {This is a comment} e5 (2. Nf3 Nc6) 2... Nc6 {Another comment} 3. Bb5 1-0
-        """.trimMargin()
+            """.trimMargin()
         val expectedMoves = listOf("e4", "e5", "Nc6", "Bb5")
         val pgnGame = PgnUtils.parsePgn(pgnString)
         assertEquals(expectedMoves, pgnGame.moves.map { it.san })
@@ -71,11 +113,12 @@ class PgnUtilsTest {
 
     @Test
     fun `applyPgnMoves should apply moves to the board`() {
-        val pgnString = """
+        val pgnString =
+            """
             1. d4 Nf6 2. Nf3 d5 3. e3 Bf5 4. c4 c6 5. Nc3 e6 6. Bd3 Bxd3 7. Qxd3 Nbd7 8. b3 Bd6 9. O-O O-O 10. Bb2 Qe7 
             11. Rad1 Rad8 12. Rfe1 dxc4 13. bxc4 e5 14. dxe5 Nxe5 15. Nxe5 Bxe5 16. Qe2 Rxd1 17. Rxd1 Rd8 18. Rxd8+ Qxd8 
             19. Qd1 Qxd1+ 20. Nxd1 Bxb2 21. Nxb2 b5 22. f3 Kf8 23. Kf2 Ke7 1/2-1/2
-        """.trimIndent()
+            """.trimIndent()
         val pgnGame = PgnUtils.parsePgn(pgnString)
         val (finalBoard, finalGameState) = PgnUtils.applyPgnMoves(pgnGame)
 
@@ -172,8 +215,10 @@ class PgnUtilsTest {
 
         assertEquals(1, games.size)
 
-        assertTrue { games[0].moves.all {
-            move -> move.comments.any { it.contains("clk") }
-        } }
+        assertTrue {
+            games[0].moves.all { move ->
+                move.comments.any { it.contains("clk") }
+            }
+        }
     }
 }

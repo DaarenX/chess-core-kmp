@@ -4,9 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-
 class SanUtilsTest {
-
     @Test
     fun `test pawn moves`() {
         val (board, gameState) = FenUtils.parseFen(FenUtils.DEFAULT_FEN)

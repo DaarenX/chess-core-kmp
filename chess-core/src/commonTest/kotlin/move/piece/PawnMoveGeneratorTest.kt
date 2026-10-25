@@ -16,7 +16,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class PawnMoveGeneratorTest {
-
     private lateinit var pawnMoveGenerator: PawnMoveGenerator
     private lateinit var whitePawn: Piece
     private lateinit var blackPawn: Piece
@@ -32,27 +31,30 @@ class PawnMoveGeneratorTest {
         board = Board()
     }
 
-    private fun placePiece(square: String, piece: Piece) {
+    private fun placePiece(
+        square: String,
+        piece: Piece,
+    ) {
         board[Square(square)] = piece
     }
 
     @Test
     fun `pawn forward move logic`() {
-
         data class PawnMoveTestCase(
             val from: String,
             val to1: String,
-            val to2: String?,    // nullable
+            val to2: String?, // nullable
             val color: PieceColor,
-            val expectedCount: Int
+            val expectedCount: Int,
         )
 
-        val testCases = listOf(
-            PawnMoveTestCase("e2", "e3", "e4", PieceColor.WHITE, 2),
-            PawnMoveTestCase("e3", "e4", null, PieceColor.WHITE, 1),
-            PawnMoveTestCase("e7", "e6", "e5", PieceColor.BLACK, 2),
-            PawnMoveTestCase("e6", "e5", null, PieceColor.BLACK, 1)
-        )
+        val testCases =
+            listOf(
+                PawnMoveTestCase("e2", "e3", "e4", PieceColor.WHITE, 2),
+                PawnMoveTestCase("e3", "e4", null, PieceColor.WHITE, 1),
+                PawnMoveTestCase("e7", "e6", "e5", PieceColor.BLACK, 2),
+                PawnMoveTestCase("e6", "e5", null, PieceColor.BLACK, 1),
+            )
 
         testCases.forEach { (from, to1, to2, color, expectedCount) ->
             val pawn = Piece(PieceType.PAWN, color)
@@ -207,5 +209,4 @@ class PawnMoveGeneratorTest {
         assertEquals(1, captures.size)
         assertEquals(Square("g4"), captures.single().to)
     }
-
 }

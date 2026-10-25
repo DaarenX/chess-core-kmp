@@ -9,5 +9,5 @@ enum class PieceType {
     BISHOP,
     ROOK,
     KING,
-    QUEEN
+    QUEEN,
 }

@@ -8,7 +8,7 @@ package xyz.daaren.chess.core.piece
  */
 data class Piece(
     val pieceType: PieceType,
-    val color: PieceColor
+    val color: PieceColor,
 ) {
     /**
      * Returns a single-character string representation of the piece.
@@ -17,15 +17,19 @@ data class Piece(
      * @return The character representing the piece type and color.
      */
     override fun toString(): String {
-        val typeChar = when (pieceType) {
-            PieceType.PAWN -> 'P'
-            PieceType.KNIGHT -> 'N'
-            PieceType.BISHOP -> 'B'
-            PieceType.ROOK -> 'R'
-            PieceType.QUEEN -> 'Q'
-            PieceType.KING -> 'K'
+        val typeChar =
+            when (pieceType) {
+                PieceType.PAWN -> 'P'
+                PieceType.KNIGHT -> 'N'
+                PieceType.BISHOP -> 'B'
+                PieceType.ROOK -> 'R'
+                PieceType.QUEEN -> 'Q'
+                PieceType.KING -> 'K'
+            }
+        return if (color == PieceColor.WHITE) {
+            typeChar.uppercaseChar().toString()
+        } else {
+            typeChar.lowercaseChar().toString()
         }
-        return if (color == PieceColor.WHITE) typeChar.uppercaseChar().toString()
-        else typeChar.lowercaseChar().toString()
     }
 }

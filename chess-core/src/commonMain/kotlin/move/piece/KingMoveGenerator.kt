@@ -1,6 +1,10 @@
 package xyz.daaren.chess.core.move.piece
 
-import xyz.daaren.chess.core.board.*
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Rank
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.board.contains
 import xyz.daaren.chess.core.game.GameState
 import xyz.daaren.chess.core.move.Move
 import xyz.daaren.chess.core.move.Offset
@@ -12,7 +16,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * Generates all pseudo-legal moves for a king, including castling.
  */
 internal class KingMoveGenerator : PieceMoveGenerator {
-
     /**
      * Generates all pseudo-legal king moves from the given square, including castling moves.
      *
@@ -32,10 +35,17 @@ internal class KingMoveGenerator : PieceMoveGenerator {
 
         val moves = mutableListOf<Move>()
         val kingColor = piece.color
-        val offsets = listOf(
-            Offset(0, 1), Offset(0, -1), Offset(1, 0), Offset(-1, 0),
-            Offset(1, 1), Offset(1, -1), Offset(-1, 1), Offset(-1, -1)
-        )
+        val offsets =
+            listOf(
+                Offset(0, 1),
+                Offset(0, -1),
+                Offset(1, 0),
+                Offset(-1, 0),
+                Offset(1, 1),
+                Offset(1, -1),
+                Offset(-1, 1),
+                Offset(-1, -1),
+            )
         val fileRange = File.getRange()
         val rankRange = Rank.getRange()
 
@@ -55,9 +65,12 @@ internal class KingMoveGenerator : PieceMoveGenerator {
             }
         }
 
-        val isOnInitialSquare = fromSquare.file.isEqualTo('e') &&
-                ((kingColor == PieceColor.WHITE && fromSquare.rank.isEqualTo(1)) ||
-                        (kingColor == PieceColor.BLACK && fromSquare.rank.isEqualTo(8)))
+        val isOnInitialSquare =
+            fromSquare.file.isEqualTo('e') &&
+                (
+                    (kingColor == PieceColor.WHITE && fromSquare.rank.isEqualTo(1)) ||
+                        (kingColor == PieceColor.BLACK && fromSquare.rank.isEqualTo(8))
+                )
 
         if (isOnInitialSquare) {
             gameState.castlingRights[kingColor]?.let { rights ->
@@ -68,7 +81,7 @@ internal class KingMoveGenerator : PieceMoveGenerator {
                     rights.kingside,
                     true,
                     ::getKingsideCastlingSquares,
-                    moves
+                    moves,
                 )
                 addCastlingMoveIfLegal(
                     board,
@@ -77,7 +90,7 @@ internal class KingMoveGenerator : PieceMoveGenerator {
                     rights.queenside,
                     false,
                     ::getQueensideCastlingSquares,
-                    moves
+                    moves,
                 )
             }
         }
@@ -94,7 +107,7 @@ internal class KingMoveGenerator : PieceMoveGenerator {
     private fun getKingsideCastlingSquares(kingRank: Rank): Pair<List<Square>, Square> =
         Pair(
             listOf(Square("f$kingRank"), Square("g$kingRank")),
-            Square("g$kingRank")
+            Square("g$kingRank"),
         )
 
     /**
@@ -106,7 +119,7 @@ internal class KingMoveGenerator : PieceMoveGenerator {
     private fun getQueensideCastlingSquares(kingRank: Rank): Pair<List<Square>, Square> =
         Pair(
             listOf(Square("d$kingRank"), Square("c$kingRank"), Square("b$kingRank")),
-            Square("c$kingRank")
+            Square("c$kingRank"),
         )
 
     /**
@@ -127,7 +140,7 @@ internal class KingMoveGenerator : PieceMoveGenerator {
         rights: Boolean,
         isKingside: Boolean,
         getCastlingSquares: (Rank) -> Pair<List<Square>, Square>,
-        moves: MutableList<Move>
+        moves: MutableList<Move>,
     ) {
         if (!rights) return
 
@@ -146,11 +159,9 @@ internal class KingMoveGenerator : PieceMoveGenerator {
                     from = fromSquare,
                     to = kingDestination,
                     isCastlingKingside = isKingside,
-                    isCastlingQueenside = !isKingside
-                )
+                    isCastlingQueenside = !isKingside,
+                ),
             )
         }
     }
-
-
 }

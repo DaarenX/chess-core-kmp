@@ -23,6 +23,6 @@ internal interface PieceMoveGenerator {
         piece: Piece,
         fromSquare: Square,
         board: Board,
-        gameState: GameState
+        gameState: GameState,
     ): List<Move>
 }

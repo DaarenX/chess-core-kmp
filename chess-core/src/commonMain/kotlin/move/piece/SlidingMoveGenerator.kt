@@ -1,6 +1,10 @@
 package xyz.daaren.chess.core.move.piece
 
-import xyz.daaren.chess.core.board.*
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Rank
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.board.contains
 import xyz.daaren.chess.core.move.Move
 import xyz.daaren.chess.core.move.Offset
 import xyz.daaren.chess.core.piece.Piece
@@ -9,7 +13,6 @@ import xyz.daaren.chess.core.piece.Piece
  * Utility object for generating sliding piece moves (rook, bishop, queen).
  */
 internal object SlidingMoveGenerator {
-
     /**
      * Generates all pseudo-legal sliding moves for a piece in the given directions.
      *
@@ -23,7 +26,7 @@ internal object SlidingMoveGenerator {
         piece: Piece,
         fromSquare: Square,
         board: Board,
-        directions: List<Offset>
+        directions: List<Offset>,
     ): List<Move> {
         val moves = mutableListOf<Move>()
 

@@ -1,6 +1,10 @@
 package xyz.daaren.chess.core.game
 
-import xyz.daaren.chess.core.board.*
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Rank
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.board.contains
 import xyz.daaren.chess.core.move.Move
 import xyz.daaren.chess.core.piece.PieceColor
 import xyz.daaren.chess.core.piece.PieceType
@@ -34,7 +38,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * ```
  */
 object GameUtils {
-
     /**
      * Applies a move to the given [board] and [gameState], returning the new board and game state.
      *
@@ -45,7 +48,11 @@ object GameUtils {
      * @param move The move to apply.
      * @return A pair of the new board and new game state after the move.
      */
-    fun makeMove(board: Board, gameState: GameState, move: Move): Pair<Board, GameState> {
+    fun makeMove(
+        board: Board,
+        gameState: GameState,
+        move: Move,
+    ): Pair<Board, GameState> {
         val newBoard = board.applyMove(move)
 
         val pieceToMove = board[move.from]
@@ -88,35 +95,40 @@ object GameUtils {
             }
         }
 
-        val isPawnDoublePush = pieceToMove.pieceType == PieceType.PAWN &&
-                (fromRank.isEqualTo(2) && toRank.isEqualTo(4) || fromRank.isEqualTo(7) && toRank.isEqualTo(5))
+        val isPawnDoublePush =
+            pieceToMove.pieceType == PieceType.PAWN &&
+                ((fromRank.isEqualTo(2) && toRank.isEqualTo(4)) || (fromRank.isEqualTo(7) && toRank.isEqualTo(5)))
 
-        val newEnPassantTargetSquare = if (isPawnDoublePush) {
-            val rankDirection = if (pieceToMove.color == PieceColor.WHITE) -1 else 1
-            Square(toFile, toRank + rankDirection)
-        } else {
-            null
-        }
+        val newEnPassantTargetSquare =
+            if (isPawnDoublePush) {
+                val rankDirection = if (pieceToMove.color == PieceColor.WHITE) -1 else 1
+                Square(toFile, toRank + rankDirection)
+            } else {
+                null
+            }
 
-        val newHalfMoveClock = if (pieceToMove.pieceType == PieceType.PAWN || move.isCapture) {
-            0
-        } else {
-            gameState.halfMoveClock + 1
-        }
+        val newHalfMoveClock =
+            if (pieceToMove.pieceType == PieceType.PAWN || move.isCapture) {
+                0
+            } else {
+                gameState.halfMoveClock + 1
+            }
 
-        val newFullMoveNumber = if (gameState.currentPlayer == PieceColor.BLACK) {
-            gameState.fullMoveNumber + 1
-        } else {
-            gameState.fullMoveNumber
-        }
+        val newFullMoveNumber =
+            if (gameState.currentPlayer == PieceColor.BLACK) {
+                gameState.fullMoveNumber + 1
+            } else {
+                gameState.fullMoveNumber
+            }
 
-        val newGameState = gameState.copy(
-            currentPlayer = gameState.opponent(),
-            castlingRights = newCastlingRights,
-            enPassantTargetSquare = newEnPassantTargetSquare,
-            halfMoveClock = newHalfMoveClock,
-            fullMoveNumber = newFullMoveNumber
-        )
+        val newGameState =
+            gameState.copy(
+                currentPlayer = gameState.opponent(),
+                castlingRights = newCastlingRights,
+                enPassantTargetSquare = newEnPassantTargetSquare,
+                halfMoveClock = newHalfMoveClock,
+                fullMoveNumber = newFullMoveNumber,
+            )
 
         return Pair(newBoard, newGameState)
     }
@@ -128,7 +140,10 @@ object GameUtils {
      * @param board The board to check on.
      * @return True if the king is in check, false otherwise.
      */
-    fun isKingInCheck(kingColor: PieceColor, board: Board): Boolean {
+    fun isKingInCheck(
+        kingColor: PieceColor,
+        board: Board,
+    ): Boolean {
         val kingSquare = board.getKingSquare(kingColor) ?: return false
         return isSquareAttackedBy(kingSquare, kingColor.opposite(), board)
     }
@@ -141,7 +156,11 @@ object GameUtils {
      * @param board The board to check on.
      * @return True if the square is attacked, false otherwise.
      */
-    fun isSquareAttackedBy(square: Square, attackerColor: PieceColor, board: Board): Boolean {
+    fun isSquareAttackedBy(
+        square: Square,
+        attackerColor: PieceColor,
+        board: Board,
+    ): Boolean {
         // 1. Pawn attacks — check the two diagonal squares where an attacking pawn would sit
         val pawnAttackDirection = if (attackerColor == PieceColor.WHITE) 1 else -1
         val pawnRank = square.rank - pawnAttackDirection
@@ -205,7 +224,7 @@ object GameUtils {
         rankDelta: Int,
         attackerColor: PieceColor,
         slidingType: PieceType,
-        board: Board
+        board: Board,
     ): Boolean {
         var f = origin.file + fileDelta
         var r = origin.rank + rankDelta
@@ -213,7 +232,7 @@ object GameUtils {
             val piece = board[f, r]
             if (piece != null) {
                 return piece.color == attackerColor &&
-                        (piece.pieceType == slidingType || piece.pieceType == PieceType.QUEEN)
+                    (piece.pieceType == slidingType || piece.pieceType == PieceType.QUEEN)
             }
             f += fileDelta
             r += rankDelta
@@ -222,21 +241,42 @@ object GameUtils {
     }
 
     // Pre-computed offset tables
-    private val KNIGHT_OFFSETS = arrayOf(
-        intArrayOf(-2, -1), intArrayOf(-2, 1), intArrayOf(-1, -2), intArrayOf(-1, 2),
-        intArrayOf(1, -2), intArrayOf(1, 2), intArrayOf(2, -1), intArrayOf(2, 1)
-    )
-    private val KING_OFFSETS = arrayOf(
-        intArrayOf(-1, -1), intArrayOf(-1, 0), intArrayOf(-1, 1),
-        intArrayOf(0, -1), intArrayOf(0, 1),
-        intArrayOf(1, -1), intArrayOf(1, 0), intArrayOf(1, 1)
-    )
-    private val DIAGONAL_OFFSETS = arrayOf(
-        intArrayOf(-1, -1), intArrayOf(-1, 1), intArrayOf(1, -1), intArrayOf(1, 1)
-    )
-    private val ORTHOGONAL_OFFSETS = arrayOf(
-        intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1)
-    )
+    private val KNIGHT_OFFSETS =
+        arrayOf(
+            intArrayOf(-2, -1),
+            intArrayOf(-2, 1),
+            intArrayOf(-1, -2),
+            intArrayOf(-1, 2),
+            intArrayOf(1, -2),
+            intArrayOf(1, 2),
+            intArrayOf(2, -1),
+            intArrayOf(2, 1),
+        )
+    private val KING_OFFSETS =
+        arrayOf(
+            intArrayOf(-1, -1),
+            intArrayOf(-1, 0),
+            intArrayOf(-1, 1),
+            intArrayOf(0, -1),
+            intArrayOf(0, 1),
+            intArrayOf(1, -1),
+            intArrayOf(1, 0),
+            intArrayOf(1, 1),
+        )
+    private val DIAGONAL_OFFSETS =
+        arrayOf(
+            intArrayOf(-1, -1),
+            intArrayOf(-1, 1),
+            intArrayOf(1, -1),
+            intArrayOf(1, 1),
+        )
+    private val ORTHOGONAL_OFFSETS =
+        arrayOf(
+            intArrayOf(-1, 0),
+            intArrayOf(1, 0),
+            intArrayOf(0, -1),
+            intArrayOf(0, 1),
+        )
 
     /**
      * Checks if the given [board] position has insufficient material for either player to checkmate.
@@ -264,7 +304,6 @@ object GameUtils {
                 return nonKingPieces.all { it.second.isLightSquare() == isLight }
             }
         }
-
 
         return false
     }

@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MoveTest {
-
     @Test
     fun movesWithDifferentFromSquaresAreNotEqual() {
         val move1 = Move(from = Square("e2"), to = Square("e4"))
@@ -32,5 +31,4 @@ class MoveTest {
         val move = Move(from = Square("e7"), to = Square("e8"), promotionPieceType = PieceType.QUEEN)
         assertEquals("e7e8q", move.toString())
     }
-
 }

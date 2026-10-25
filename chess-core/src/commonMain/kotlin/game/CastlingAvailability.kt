@@ -8,5 +8,5 @@ package xyz.daaren.chess.core.game
  */
 data class CastlingAvailability(
     val kingside: Boolean,
-    val queenside: Boolean
+    val queenside: Boolean,
 )

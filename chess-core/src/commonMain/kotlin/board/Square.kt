@@ -32,7 +32,7 @@ import xyz.daaren.chess.core.exception.SquareFormatException
  */
 data class Square(
     val file: File,
-    val rank: Rank
+    val rank: Rank,
 ) {
     /**
      * Constructs a [Square] from algebraic notation (e.g., "e4").
@@ -42,7 +42,7 @@ data class Square(
      */
     constructor(notation: String) : this(
         file = parseFile(notation),
-        rank = parseRank(notation)
+        rank = parseRank(notation),
     )
 
     /**
@@ -53,6 +53,7 @@ data class Square(
     override fun toString(): String = "${file.value}${rank.value}"
 
     // Utility Methods
+
     /**
      * Returns true if the square is a dark square.
      *
@@ -69,9 +70,7 @@ data class Square(
      *
      * @return `true` if the square is light, `false` otherwise.
      */
-    internal fun isLightSquare(): Boolean {
-        return !isDarkSquare()
-    }
+    internal fun isLightSquare(): Boolean = !isDarkSquare()
 
     private companion object {
         /**
@@ -82,8 +81,9 @@ data class Square(
          * @throws SquareFormatException if the file is invalid.
          */
         private fun parseFile(notation: String): File {
-            if (notation.length != 2)
+            if (notation.length != 2) {
                 throw SquareFormatException("Invalid square notation length: '$notation'")
+            }
 
             val fileChar = notation[0]
             return try {
@@ -101,8 +101,9 @@ data class Square(
          * @throws SquareFormatException if the rank is invalid.
          */
         private fun parseRank(notation: String): Rank {
-            if (notation.length != 2)
+            if (notation.length != 2) {
                 throw SquareFormatException("Invalid square notation length: '$notation'")
+            }
 
             val rankChar = notation[1]
             return try {

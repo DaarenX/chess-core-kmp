@@ -66,12 +66,9 @@ class Board(
     /**
      * A mutable map from [Square] to [Piece?], representing the board state.
      */
-    private val squaresMap: MutableMap<Square, Piece?> = mutableMapOf()
+    private val squaresMap: MutableMap<Square, Piece?> = mutableMapOf(),
 ) {
-
-    /**
-     * Initializes the board with empty squares if not already present in [squaresMap].
-     */
+    // Initializes the board with empty squares if not already present in squaresMap.
     init {
         for (rank in 1..8) {
             for (fileChar in 'a'..'h') {
@@ -86,12 +83,19 @@ class Board(
     /**
      * Gets the [Piece] at the given [File] and [Rank], or null if the square is empty.
      */
-    operator fun get(file: File, rank: Rank): Piece? = squaresMap[Square(file, rank)]
+    operator fun get(
+        file: File,
+        rank: Rank,
+    ): Piece? = squaresMap[Square(file, rank)]
 
     /**
      * Sets the [Piece] at the given [File] and [Rank].
      */
-    internal operator fun set(file: File, rank: Rank, piece: Piece?) {
+    internal operator fun set(
+        file: File,
+        rank: Rank,
+        piece: Piece?,
+    ) {
         squaresMap[Square(file, rank)] = piece
     }
 
@@ -103,21 +107,25 @@ class Board(
     /**
      * Sets the [Piece] at the given [Square].
      */
-    internal operator fun set(square: Square, piece: Piece?) {
+    internal operator fun set(
+        square: Square,
+        piece: Piece?,
+    ) {
         squaresMap[square] = piece
     }
 
     /**
      * Gets the [Piece] at the square specified by algebraic notation.
      */
-    operator fun get(notation: String): Piece? {
-        return get(getSquareAtNotation(notation))
-    }
+    operator fun get(notation: String): Piece? = get(getSquareAtNotation(notation))
 
     /**
      * Sets the [Piece] at the square specified by algebraic notation.
      */
-    internal operator fun set(notation: String, piece: Piece?) {
+    internal operator fun set(
+        notation: String,
+        piece: Piece?,
+    ) {
         set(getSquareAtNotation(notation), piece)
     }
 
@@ -141,15 +149,17 @@ class Board(
      * Applies a [Move] and returns a new [Board] with the move applied.
      */
     fun applyMove(move: Move): Board {
-        val pieceToMove = this[move.from]
-            ?: throw IllegalStateException("No piece at from square ${move.from} for move $move")
+        val pieceToMove =
+            this[move.from]
+                ?: throw IllegalStateException("No piece at from square ${move.from} for move $move")
         val newBoard = this.copy()
         newBoard[move.from] = null
-        newBoard[move.to] = if (move.promotionPieceType != null && pieceToMove.pieceType == PieceType.PAWN) {
-            Piece(move.promotionPieceType, pieceToMove.color)
-        } else {
-            pieceToMove
-        }
+        newBoard[move.to] =
+            if (move.promotionPieceType != null && pieceToMove.pieceType == PieceType.PAWN) {
+                Piece(move.promotionPieceType, pieceToMove.color)
+            } else {
+                pieceToMove
+            }
 
         when {
             move.isEnPassantCapture -> {
@@ -179,20 +189,19 @@ class Board(
     /**
      * Returns a list of all pieces on the board, paired with their [Square].
      */
-    fun getAllPieces(): List<Pair<Piece, Square>> {
-        return squaresMap.entries
+    fun getAllPieces(): List<Pair<Piece, Square>> =
+        squaresMap.entries
             .filter { it.value != null }
             .map { (square, piece) -> piece!! to square }
-    }
 
     /**
      * Returns the [Square] occupied by the king of the given [PieceColor], or null if not found.
      */
-    internal fun getKingSquare(color: PieceColor): Square? {
-        return squaresMap.entries.find { (_, piece) ->
-            piece?.color == color && piece.pieceType == PieceType.KING
-        }?.key
-    }
+    internal fun getKingSquare(color: PieceColor): Square? =
+        squaresMap.entries
+            .find { (_, piece) ->
+                piece?.color == color && piece.pieceType == PieceType.KING
+            }?.key
 
     /**
      * Returns a deep copy of the [Board]

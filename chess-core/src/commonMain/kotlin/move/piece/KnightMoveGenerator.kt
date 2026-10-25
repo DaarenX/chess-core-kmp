@@ -1,6 +1,10 @@
 package xyz.daaren.chess.core.move.piece
 
-import xyz.daaren.chess.core.board.*
+import xyz.daaren.chess.core.board.Board
+import xyz.daaren.chess.core.board.File
+import xyz.daaren.chess.core.board.Rank
+import xyz.daaren.chess.core.board.Square
+import xyz.daaren.chess.core.board.contains
 import xyz.daaren.chess.core.game.GameState
 import xyz.daaren.chess.core.move.Move
 import xyz.daaren.chess.core.move.Offset
@@ -11,7 +15,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * Generates all pseudo-legal moves for a knight.
  */
 internal class KnightMoveGenerator : PieceMoveGenerator {
-
     /**
      * Generates all pseudo-legal knight moves from the given square.
      *
@@ -31,10 +34,17 @@ internal class KnightMoveGenerator : PieceMoveGenerator {
 
         val moves = mutableListOf<Move>()
         val knightColor = piece.color
-        val offsets = listOf(
-            Offset(1, 2), Offset(1, -2), Offset(-1, 2), Offset(-1, -2),
-            Offset(2, 1), Offset(2, -1), Offset(-2, 1), Offset(-2, -1)
-        )
+        val offsets =
+            listOf(
+                Offset(1, 2),
+                Offset(1, -2),
+                Offset(-1, 2),
+                Offset(-1, -2),
+                Offset(2, 1),
+                Offset(2, -1),
+                Offset(-2, 1),
+                Offset(-2, -1),
+            )
 
         for (offset in offsets) {
             val targetFile = fromSquare.file + offset.fileDelta

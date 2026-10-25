@@ -17,17 +17,14 @@ data class GameState(
     val castlingRights: Map<PieceColor, CastlingAvailability>,
     val enPassantTargetSquare: Square?,
     val halfMoveClock: Int,
-    val fullMoveNumber: Int
+    val fullMoveNumber: Int,
 ) {
-
     /**
      * Returns the opponent of the current player.
      *
      * @return [PieceColor] representing the opponent.
      */
-    fun opponent(): PieceColor {
-        return if (currentPlayer == PieceColor.WHITE) PieceColor.BLACK else PieceColor.WHITE
-    }
+    fun opponent(): PieceColor = if (currentPlayer == PieceColor.WHITE) PieceColor.BLACK else PieceColor.WHITE
 
     /**
      * Creates a new game state representing the initial position.
@@ -35,17 +32,17 @@ data class GameState(
      * @return A [GameState] with default values for a new chess game.
      */
     companion object {
-        fun newGame(): GameState {
-            return GameState(
+        fun newGame(): GameState =
+            GameState(
                 currentPlayer = PieceColor.WHITE,
-                castlingRights = mapOf(
-                    PieceColor.WHITE to CastlingAvailability(kingside = true, queenside = true),
-                    PieceColor.BLACK to CastlingAvailability(kingside = true, queenside = true)
-                ),
+                castlingRights =
+                    mapOf(
+                        PieceColor.WHITE to CastlingAvailability(kingside = true, queenside = true),
+                        PieceColor.BLACK to CastlingAvailability(kingside = true, queenside = true),
+                    ),
                 enPassantTargetSquare = null,
                 halfMoveClock = 0,
-                fullMoveNumber = 1
+                fullMoveNumber = 1,
             )
-        }
     }
 }

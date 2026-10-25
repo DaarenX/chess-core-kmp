@@ -14,7 +14,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RookMoveGeneratorTest {
-
     private lateinit var rookMoveGenerator: RookMoveGenerator
     private lateinit var gameState: GameState
     private lateinit var board: Board

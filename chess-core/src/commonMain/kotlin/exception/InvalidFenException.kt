@@ -8,5 +8,5 @@ package xyz.daaren.chess.core.exception
  */
 class InvalidFenException(
     message: String,
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : ChessCoreException(message, cause)

@@ -12,7 +12,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * Generates all pseudo-legal moves for a rook.
  */
 internal class RookMoveGenerator : PieceMoveGenerator {
-
     /**
      * Generates all pseudo-legal rook moves from the given square.
      *
@@ -26,16 +25,17 @@ internal class RookMoveGenerator : PieceMoveGenerator {
         piece: Piece,
         fromSquare: Square,
         board: Board,
-        gameState: GameState
+        gameState: GameState,
     ): List<Move> {
         require(piece.pieceType == PieceType.ROOK) { "Piece must be a ROOK" }
 
-        val rookDirections = listOf(
-            Offset(0, 1),
-            Offset(0, -1),
-            Offset(1, 0),
-            Offset(-1, 0)
-        )
+        val rookDirections =
+            listOf(
+                Offset(0, 1),
+                Offset(0, -1),
+                Offset(1, 0),
+                Offset(-1, 0),
+            )
 
         return SlidingMoveGenerator.generateSlidingMoves(piece, fromSquare, board, rookDirections)
     }

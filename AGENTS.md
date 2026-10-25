@@ -26,10 +26,12 @@ Versions live in `gradle/libs.versions.toml`; the library version is set in
 ./gradlew allTests              # tests on all targets this host supports
 ./gradlew assemble              # build all targets
 ./gradlew publishToMavenLocal   # local publish check (signing skipped without a key)
+./gradlew ktlintCheck           # lint (ktlint_official style, see .editorconfig)
+./gradlew ktlintFormat          # auto-fix lint violations
 ```
 
 Note: `./gradlew test` only runs the Android unit tests — use `allTests` for full coverage.
-There is no linter or Dokka configured yet.
+There is no Dokka configured yet.
 
 ## Conventions
 

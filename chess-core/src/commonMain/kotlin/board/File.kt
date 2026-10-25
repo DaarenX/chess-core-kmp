@@ -34,7 +34,7 @@ value class File(
     /**
      * The character representing the file ('a' to 'h').
      */
-    val value: Char
+    val value: Char,
 ) {
     /**
      * Returns the string representation of the file.
@@ -49,9 +49,7 @@ value class File(
      * @param other The character to compare with.
      * @return `true` if the file is equal to the given character, `false` otherwise.
      */
-    fun isEqualTo(other: Char): Boolean {
-        return this.value == other
-    }
+    fun isEqualTo(other: Char): Boolean = this.value == other
 
     /**
      * Adds an integer to the file, resulting in a new file shifted by the given amount.
@@ -59,9 +57,7 @@ value class File(
      * @param other The integer to add.
      * @return A new [File] shifted by the given amount.
      */
-    operator fun plus(other: Int): File {
-        return File((this.value + other))
-    }
+    operator fun plus(other: Int): File = File((this.value + other))
 
     /**
      * Subtracts an integer from the file, resulting in a new file shifted by the given amount.
@@ -69,18 +65,14 @@ value class File(
      * @param other The integer to subtract.
      * @return A new [File] shifted by the given amount.
      */
-    operator fun minus(other: Int): File {
-        return File((this.value - other))
-    }
+    operator fun minus(other: Int): File = File((this.value - other))
 
     /**
      * Converts the file to a zero-based array index (0 for 'a', 7 for 'h').
      *
      * @return The array index corresponding to the file.
      */
-    internal fun toArrayIndex(): Int {
-        return value - 'a'
-    }
+    internal fun toArrayIndex(): Int = value - 'a'
 
     companion object {
         /**
@@ -88,9 +80,7 @@ value class File(
          *
          * @return The character range for files.
          */
-        internal fun getRange(): CharRange {
-            return 'a'..'h'
-        }
+        internal fun getRange(): CharRange = 'a'..'h'
     }
 }
 

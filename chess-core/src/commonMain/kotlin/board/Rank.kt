@@ -29,7 +29,7 @@ value class Rank(
     /**
      * The integer value of the rank (1 to 8).
      */
-    val value: Int
+    val value: Int,
 ) {
     /**
      * Returns the string representation of the rank.
@@ -39,26 +39,24 @@ value class Rank(
     override fun toString(): String = value.toString()
 
     // Comparison Methods
+
     /**
      * Checks if the rank is equal to the given integer.
      *
      * @param other The integer to compare with.
      * @return `true` if the rank is equal to the given integer, `false` otherwise.
      */
-    fun isEqualTo(other: Int): Boolean {
-        return this.value == other
-    }
+    fun isEqualTo(other: Int): Boolean = this.value == other
 
     // Arithmetic Operations
+
     /**
      * Adds an integer to the rank, resulting in a new rank shifted by the given amount.
      *
      * @param other The integer to add.
      * @return A new [Rank] shifted by the given amount.
      */
-    operator fun plus(other: Int): Rank {
-        return Rank(this.value + other)
-    }
+    operator fun plus(other: Int): Rank = Rank(this.value + other)
 
     /**
      * Subtracts an integer from the rank, resulting in a new rank shifted by the given amount.
@@ -66,16 +64,12 @@ value class Rank(
      * @param other The integer to subtract.
      * @return A new [Rank] shifted by the given amount.
      */
-    operator fun minus(other: Int): Rank {
-        return Rank(this.value - other)
-    }
+    operator fun minus(other: Int): Rank = Rank(this.value - other)
 
     /*
      * Converts the rank to a zero-based index (0 for rank 1, 7 for rank 8).
      */
-    internal fun toArrayIndex(): Int {
-        return this.value - 1
-    }
+    internal fun toArrayIndex(): Int = this.value - 1
 
     companion object {
         /**
@@ -83,9 +77,7 @@ value class Rank(
          *
          * @return The integer range for ranks.
          */
-        internal fun getRange(): IntRange {
-            return 1..8
-        }
+        internal fun getRange(): IntRange = 1..8
     }
 }
 

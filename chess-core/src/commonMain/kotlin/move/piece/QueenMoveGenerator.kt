@@ -12,7 +12,6 @@ import xyz.daaren.chess.core.piece.PieceType
  * Generates all pseudo-legal moves for a queen.
  */
 internal class QueenMoveGenerator : PieceMoveGenerator {
-
     /**
      * Generates all pseudo-legal queen moves from the given square.
      *
@@ -26,16 +25,23 @@ internal class QueenMoveGenerator : PieceMoveGenerator {
         piece: Piece,
         fromSquare: Square,
         board: Board,
-        gameState: GameState
+        gameState: GameState,
     ): List<Move> {
         require(piece.pieceType == PieceType.QUEEN) { "Piece must be a QUEEN" }
 
-        val queenDirections = listOf(
-            // Rook-like
-            Offset(0, 1), Offset(0, -1), Offset(1, 0), Offset(-1, 0),
-            // Bishop-like
-            Offset(1, 1), Offset(1, -1), Offset(-1, 1), Offset(-1, -1)
-        )
+        val queenDirections =
+            listOf(
+                // Rook-like
+                Offset(0, 1),
+                Offset(0, -1),
+                Offset(1, 0),
+                Offset(-1, 0),
+                // Bishop-like
+                Offset(1, 1),
+                Offset(1, -1),
+                Offset(-1, 1),
+                Offset(-1, -1),
+            )
 
         return SlidingMoveGenerator.generateSlidingMoves(piece, fromSquare, board, queenDirections)
     }

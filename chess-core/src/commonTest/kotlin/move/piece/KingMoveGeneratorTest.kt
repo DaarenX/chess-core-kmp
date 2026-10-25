@@ -15,7 +15,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class KingMoveGeneratorTest {
-
     private lateinit var kingMoveGenerator: KingMoveGenerator
     private lateinit var gameState: GameState
     private lateinit var board: Board
@@ -27,7 +26,11 @@ class KingMoveGeneratorTest {
         board = Board()
     }
 
-    private fun placePiece(square: String, type: PieceType, color: PieceColor) {
+    private fun placePiece(
+        square: String,
+        type: PieceType,
+        color: PieceColor,
+    ) {
         board[Square(square)] = Piece(type, color)
     }
 
@@ -45,10 +48,11 @@ class KingMoveGeneratorTest {
 
     @Test
     fun `king cannot move to squares with friendly pieces`() {
-        val testCases = listOf(
-            "d5" to "e5",
-            "d4" to "f4"
-        )
+        val testCases =
+            listOf(
+                "d5" to "e5",
+                "d4" to "f4",
+            )
 
         testCases.forEach { (block1, block2) ->
             val kingSquare = Square("e4")
@@ -56,9 +60,13 @@ class KingMoveGeneratorTest {
             placePiece(block1, PieceType.PAWN, PieceColor.WHITE)
             placePiece(block2, PieceType.PAWN, PieceColor.WHITE)
 
-            val moves = kingMoveGenerator.generatePseudoLegalMoves(
-                board[kingSquare]!!, kingSquare, board, gameState
-            )
+            val moves =
+                kingMoveGenerator.generatePseudoLegalMoves(
+                    board[kingSquare]!!,
+                    kingSquare,
+                    board,
+                    gameState,
+                )
 
             assertMoveDoesNotExist(moves, kingSquare, Square(block1))
             assertMoveDoesNotExist(moves, kingSquare, Square(block2))
@@ -103,12 +111,14 @@ class KingMoveGeneratorTest {
         placePiece("e1", PieceType.KING, PieceColor.WHITE)
         placePiece("h1", PieceType.ROOK, PieceColor.WHITE)
 
-        gameState = gameState.copy(
-            castlingRights = mapOf(
-                PieceColor.WHITE to CastlingAvailability(kingside = false, queenside = false),
-                PieceColor.BLACK to CastlingAvailability(kingside = true, queenside = true)
+        gameState =
+            gameState.copy(
+                castlingRights =
+                    mapOf(
+                        PieceColor.WHITE to CastlingAvailability(kingside = false, queenside = false),
+                        PieceColor.BLACK to CastlingAvailability(kingside = true, queenside = true),
+                    ),
             )
-        )
 
         val moves = kingMoveGenerator.generatePseudoLegalMoves(board[kingSquare]!!, kingSquare, board, gameState)
         assertMoveDoesNotExist(moves, kingSquare, Square("g1"))

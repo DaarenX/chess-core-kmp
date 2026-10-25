@@ -16,7 +16,9 @@ sealed class GameResult {
      *
      * @property winner The color of the winning player.
      */
-    data class Win(val winner: PieceColor) : GameResult()
+    data class Win(
+        val winner: PieceColor,
+    ) : GameResult()
 
     /**
      * Represents a drawn game.

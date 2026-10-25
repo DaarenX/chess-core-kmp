@@ -5,14 +5,13 @@ package xyz.daaren.chess.core.piece
  */
 enum class PieceColor {
     WHITE,
-    BLACK;
+    BLACK,
+    ;
 
     /**
      * Returns the opposite color.
      *
      * @return [PieceColor] The opposite color (WHITE <-> BLACK).
      */
-    fun opposite(): PieceColor {
-        return if (this == WHITE) BLACK else WHITE
-    }
+    fun opposite(): PieceColor = if (this == WHITE) BLACK else WHITE
 }
