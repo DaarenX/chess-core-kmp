@@ -15,6 +15,7 @@ Single module `chess-core/`, package `xyz.daaren.chess.core`:
 - `src/commonMain/kotlin/` — `board`, `game`, `move` (incl. `move/piece`), `piece`, `utils` (FEN/PGN/SAN), `exception`
 - `src/commonTest/kotlin/` — tests that run on every target (put new tests here)
 - `src/jvmTest/kotlin/` — JVM-only tests, e.g. `move/PerftTest.kt`
+- `dokka/` — module/package docs (`dokka.md`) and HTML assets for Dokka
 
 Versions live in `gradle/libs.versions.toml`; the library version is set in
 `chess-core/build.gradle.kts`.
@@ -28,10 +29,10 @@ Versions live in `gradle/libs.versions.toml`; the library version is set in
 ./gradlew publishToMavenLocal   # local publish check (signing skipped without a key)
 ./gradlew ktlintCheck           # lint (ktlint_official style, see .editorconfig)
 ./gradlew ktlintFormat          # auto-fix lint violations
+./gradlew dokkaGenerate         # API docs → build/dokka (fails on warnings)
 ```
 
 Note: `./gradlew test` only runs the Android unit tests — use `allTests` for full coverage.
-There is no Dokka configured yet.
 
 ## Conventions
 

@@ -2,8 +2,7 @@
 
 Welcome to `chess-core-kmp`! This Kotlin Multiplatform library is designed to handle all the core logic and rules of chess, making it easy
 to build chess apps, tools, or analysis utilities. It focuses on move generation, rule enforcement, and game state
-management. If you want to connect to a chess engine like Stockfish for analysis or computer play, this library provides
-a simple wrapper for that—but it does not include a chess engine or AI itself.
+management. It has no runtime dependencies and does not include a chess engine or AI.
 
 ## Features
 
@@ -38,11 +37,6 @@ checkmate, stalemate, draw, etc.).
 # Package xyz.daaren.chess.core.move
 
 Focuses on move generation and validation. Generates legal moves, checks move validity, and applies moves to the board.
-`PseudoLegalMoveGenerator.kt`: Generates moves that are legal except for leaving the king in check.
-
-# Package xyz.daaren.chess.core.move.piece
-
-Defines how each chess piece moves. Implements the movement rules for pawns, knights, bishops, rooks, queens, and kings.
 
 # Package xyz.daaren.chess.core.piece
 

@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.vanniktech.mavenPublish)
     alias(libs.plugins.ktlint)
-    // id("org.jetbrains.dokka") version "2.0.0"
+    alias(libs.plugins.dokka)
 }
 
 group = "xyz.daaren"
@@ -116,7 +116,6 @@ tasks.withType<Test>().configureEach {
     }
 }
 
-/*
 dokka {
     moduleName.set("chess-core")
     dokkaPublications.html {
@@ -125,20 +124,8 @@ dokka {
         outputDirectory.set(rootDir.resolve("build/dokka"))
     }
 
-    dokkaSourceSets {
-        configureEach {
-            documentedVisibilities.set(
-                setOf(
-                    VisibilityModifier.Public,
-                    VisibilityModifier.Internal,
-                    VisibilityModifier.Protected,
-                )
-            )
-        }
-
-        named("commonMain") {
-            includes.from("dokka/dokka.md")
-        }
+    dokkaSourceSets.named("commonMain") {
+        includes.from("dokka/dokka.md")
     }
 
     pluginsConfiguration.html {
@@ -146,6 +133,4 @@ dokka {
         customAssets.from("dokka/assets/logo-icon.svg")
         footerMessage.set("chess-core")
     }
-
 }
-*/

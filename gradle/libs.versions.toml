@@ -4,6 +4,7 @@ kotlin = "2.3.21"
 android-minSdk = "24"
 android-compileSdk = "36"
 ktlint = "1.8.0"
+dokka = "2.2.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -13,3 +14,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.36.0" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "14.2.0" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
